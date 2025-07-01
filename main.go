@@ -11,6 +11,7 @@ import (
 	"slices"
 
 	"github.com/mtslzr/pokeapi-go/structs"
+	"github.com/savioxavier/termlink"
 )
 
 func parseTemp(f string) *template.Template {
@@ -181,7 +182,7 @@ func main() {
 	http.HandleFunc("/pkmn/{id}", pkmnLoadfunc)
 
 	serverPort := ":8080"
-	fmt.Printf("Server active at %v\n", serverPort)
+	fmt.Printf("Server active at %v\n", termlink.ColorLink(fmt.Sprintf("Port %v", serverPort), fmt.Sprintf("http://localhost%v", serverPort), "blue"))
 
 	http.ListenAndServe(serverPort, nil)
 }
