@@ -1,0 +1,58 @@
+@use "sass:map";
+
+@mixin flex-rules($j: "space-evenly", $wr: false) {
+	display: flex;
+
+	@if ($wr) {
+		flex-wrap: wrap;
+	}
+
+	justify-content: $j;
+}
+
+.pokedex-app-container {
+	margin: 24px 3%;
+	display: block;
+}
+
+.region-select {
+	margin: 16px;
+}
+
+.pkmn-list {
+	@include flex-rules("space-between");
+	margin: 12px auto;
+	$card-colors: (
+		"normal": rgb(230, 245, 255),
+		"hover": rgb(150, 130, 220),
+		"special": rgb(250, 230, 240),
+		"unique": rgb(240, 240, 220),
+	);
+
+	& > div {
+		margin: 20px 8px;
+		text-align: center;
+		flex-basis: 20%;
+		background-color: map.get($card-colors, "normal");
+		text-transform: capitalize;
+
+		&:hover {
+			background-color: map.get($card-colors, "hover");
+
+			.pkmn-entry,
+			.pkmn-entry:visited {
+				color: whitesmoke;
+			}
+		}
+	}
+
+	.pkmn-entry,
+	.pkmn-entry:visited {
+		color: darkblue;
+		text-decoration: none;
+	}
+
+	.pkmn-entry div:nth-of-type(2) {
+		padding-bottom: 12px;
+	}
+}

@@ -1,0 +1,23 @@
+@use "variables";
+
+:root {
+	font-size: variables.$base-font-size;
+}
+
+@each $elem in variables.$header-elems {
+	#{$elem} {
+		font-family: variables.$header-font;
+	}
+}
+
+@each $elem in variables.$text-elems {
+	#{$elem} {
+		font-family: variables.$text-font;
+	}
+}
+
+@each $elem in variables.$ubuntu-sans-elems {
+	#{$elem} {
+		font-family: "Ubuntu Sans", sans-serif;
+	}
+}

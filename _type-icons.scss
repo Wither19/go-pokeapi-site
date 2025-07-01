@@ -1,0 +1,62 @@
+@use "variables";
+@use "sass:string";
+
+@mixin uniform-size($s) {
+	height: $s;
+	width: $s;
+}
+
+@mixin type-icon($c, $shadow: true) {
+	$c: string.unquote($c);
+
+	background-color: $c;
+
+	@if ($shadow) {
+		box-shadow: 0 0 20px $c;
+	}
+}
+
+@mixin lock-size($d, $s) {
+	#{$d}: $s;
+	min-#{$d}: $s;
+	max-#{$d}: $s;
+}
+
+.icon {
+	@include uniform-size(100px);
+	border-radius: 100%;
+	margin: 8px 32px;
+	transition: 200ms all;
+
+	@each $name, $color in variables.$types {
+		&.#{$name} {
+			@include type-icon($color);
+		}
+	}
+
+	&:hover {
+		filter: saturate(200%);
+		transform: scale(1.1);
+		cursor: pointer;
+	}
+
+	img {
+		@include uniform-size(60%);
+		margin: 20%;
+	}
+}
+
+@each $name, $color in variables.$types {
+	li .#{$name} {
+		@include type-icon($color, false);
+		@include lock-size(width, 15vw);
+		color: whitesmoke;
+		text-shadow: 0px 2px 1px gray;
+		padding: 20px;
+		border-radius: 5px;
+	}
+
+	li:has(.#{$name}) {
+		margin: 24px 4px;
+	}
+}
