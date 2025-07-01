@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/static/css/style.css" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
+			rel="stylesheet" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div class="container">
+			<a href="/"><button>&lt; Back</button></a>
+			<div class="pkmn-num-header">#{{.PaddedID}}</div>
+			<div class="pkmn-genus-header">{{.EnglishGenus}}</div>
+			<h1 class="pkmn-name-header">{{.Pokemon.Name}}</h1>
+			<div style="display: flex; justify-content: center">
+				<img
+					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{.Pokemon.ID}}.png"
+					alt="{{.Pokemon.Name}}"
+					class="artwork regular" />
+				<img
+					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/{{.Pokemon.ID}}.png"
+					alt="{{.Pokemon.Name}}"
+					class="artwork shiny" />
+			</div>
+			{{ range $flavor := .FlavorTexts }}
+			<div>{{$flavor.FlavorText}}</div>
+			{{ end }}
+		</div>
+	</body>
+</html>
