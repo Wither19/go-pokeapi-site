@@ -96,7 +96,7 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	parseTemp("main.html").Execute(w, d)
+	parseTemp("main.tmpl").Execute(w, d)
 }
 
 func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
@@ -168,7 +168,7 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	parseTemp("pkmn.html").Execute(w, data)
+	parseTemp("pkmn.tmpl").Execute(w, data)
 
 }
 
