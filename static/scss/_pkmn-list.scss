@@ -1,13 +1,14 @@
 @use "sass:map";
+@use "sass:string";
 
-@mixin flex-rules($j: "space-evenly", $wr: false) {
+@mixin flex-rules($j: "space-evenly", $wr: true) {
 	display: flex;
 
 	@if ($wr) {
 		flex-wrap: wrap;
 	}
 
-	justify-content: $j;
+	justify-content: string.unquote($j);
 }
 
 .pokedex-app-container {
@@ -24,7 +25,7 @@
 	margin: 12px auto;
 	$card-colors: (
 		"normal": rgb(230, 245, 255),
-		"hover": rgb(150, 130, 220),
+		"hover": rgb(146, 148, 238),
 		"special": rgb(250, 230, 240),
 		"unique": rgb(240, 240, 220),
 	);

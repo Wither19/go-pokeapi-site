@@ -77,7 +77,8 @@ sub {
 
 .pkmn-list {
   display: flex;
-  justify-content: "space-between";
+  flex-wrap: wrap;
+  justify-content: space-between;
   margin: 12px auto;
 }
 .pkmn-list > div {
@@ -88,7 +89,7 @@ sub {
   text-transform: capitalize;
 }
 .pkmn-list > div:hover {
-  background-color: rgb(150, 130, 220);
+  background-color: rgb(146, 148, 238);
 }
 .pkmn-list > div:hover .pkmn-entry,
 .pkmn-list > div:hover .pkmn-entry:visited {
