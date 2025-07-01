@@ -182,7 +182,7 @@ func main() {
 	http.HandleFunc("/pkmn/{id}", pkmnLoadfunc)
 
 	serverPort := ":8080"
-	fmt.Printf("Server active at %v\n", termlink.ColorLink(fmt.Sprintf("Port %v", serverPort), fmt.Sprintf("http://localhost%v", serverPort), "blue"))
+	fmt.Printf("Server active at %v\n", termlink.ColorLink(fmt.Sprintf("port %v", serverPort), fmt.Sprintf("http://localhost%v", serverPort), "blue"))
 
 	http.ListenAndServe(serverPort, nil)
 }
