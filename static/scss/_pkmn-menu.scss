@@ -44,6 +44,11 @@
 	}
 }
 
+.back-btn {
+	margin: 12px 4px;
+	font-size: 1.2rem;
+}
+
 .pkmn-num-header {
 	font-weight: bold;
 }
@@ -51,11 +56,12 @@
 .pkmn-num-header,
 .pkmn-genus-header {
 	text-align: center;
-	font-size: 1.1em;
+	font-size: 1.3em;
 	margin: 8px 6px;
 }
 
 img.artwork {
+	display: inherit;
 	width: 17.5vw;
 	margin: 10px auto;
 	text-align: center;
@@ -72,6 +78,10 @@ img.artwork {
 		&:hover {
 			filter: shadow(true, true);
 		}
+	}
+
+	&.hidden {
+		display: none;
 	}
 }
 
@@ -102,13 +112,13 @@ img.artwork {
 
 .dex-entries {
 	p {
-		$dex-entry-line-height: 1.6em;
-		$dex-entry-expanded-size: (variables.$base-font-size * strip-units($dex-entry-line-height)) * 3;
+		// $dex-entry-line-height: 1.6em;
+		// $dex-entry-expanded-size: (variables.$base-font-size * strip-units($dex-entry-line-height)) * 3;
 
-		@include lock-size(width, 1000px);
-		@include lock-size(height, $dex-entry-expanded-size);
-		margin: 16px auto;
-		line-height: $dex-entry-line-height;
+		// @include lock-size(width, 1000px);
+		// @include lock-size(height, $dex-entry-expanded-size);
+		// margin: 16px auto;
+		// line-height: $dex-entry-line-height;
 	}
 }
 

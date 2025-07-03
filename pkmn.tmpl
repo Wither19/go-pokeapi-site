@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<a href="/"><button>&lt; Back</button></a>
+			<a class="back-btn" href="/"><button>&lt; Back</button></a>
 			<div class="pkmn-num-header">#{{.PaddedID}}</div>
 			<div class="pkmn-genus-header">{{.EnglishGenus}}</div>
 			<h1 class="pkmn-name-header">{{.Pokemon.Name}}</h1>
@@ -22,11 +22,13 @@
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
+					id="regular-art"
 					class="artwork regular" />
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
-					class="artwork shiny" />
+					id="shiny-art"
+					class="artwork shiny hidden" />
 			</div>
 			<div class="dex-entries">
 			{{ range $flavor := .FlavorTexts }}
@@ -34,5 +36,6 @@
 			{{ end }}
 			</div>
 		</div>
+		<script src="/static/js/pkmn.js"></script>
 	</body>
 </html>

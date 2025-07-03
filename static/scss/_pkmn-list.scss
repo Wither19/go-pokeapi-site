@@ -31,9 +31,15 @@
 		flex-basis: 20%;
 		background-color: map.get(variables.$card-colors, "normal");
 		text-transform: capitalize;
+		border: 2px groove lightblue;
+		border-radius: 0px 9px;
+		transition: 0.2s;
 
 		&:hover {
 			background-color: map.get(variables.$card-colors, "hover");
+
+			border-color: cornflowerblue;
+			border-radius: 0px 3px;
 
 			.pkmn-entry,
 			.pkmn-entry:visited {
