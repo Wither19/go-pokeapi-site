@@ -66,6 +66,10 @@ sub {
   font-family: "Ubuntu Sans", sans-serif;
 }
 
+.pkmn-num-header {
+  font-family: "Ubuntu Sans", sans-serif;
+}
+
 .pokedex-app-container {
   margin: 24px 3%;
   display: block;
