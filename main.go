@@ -145,7 +145,6 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	flavorTexts := []FlavorText{}
-	engFlavors := []FlavorText{}
 
 	omissions := []string{
 		"red", "blue", "yellow", "gold", "silver", "crystal",
@@ -154,18 +153,17 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	for _, flavorText := range species.FlavorTextEntries {
-		if (flavorText.Language.Name == "en") {
-			engFlavors = append(engFlavors, flavorText)
-		}
-	}
-
-	for _, flavorText := range engFlavors {
-		if (!slices.Contains(omissions, flavorText.Version.Name)) {
+		if (flavorText.Language.Name == "en" && !slices.Contains(omissions, flavorText.Version.Name)) {
 			flavorTexts = append(flavorTexts, flavorText)
 		}
 	}
 
-	data := PkmnData{Pokemon: pkmn, PaddedID: paddedID, EnglishGenus: engGenus.Genus, FlavorTexts: flavorTexts}
+	data := PkmnData{
+		Pokemon: pkmn,
+		PaddedID: paddedID, 
+		EnglishGenus: engGenus.Genus, 
+		FlavorTexts: flavorTexts,
+	}
 
 	serverSassComp(false)
 
