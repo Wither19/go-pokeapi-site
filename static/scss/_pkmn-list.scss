@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "sass:string";
+@use "variables";
 
 @mixin flex-rules($j: "space-evenly", $wr: true) {
 	display: flex;
@@ -23,22 +24,16 @@
 .pkmn-list {
 	@include flex-rules("space-between");
 	margin: 12px auto;
-	$card-colors: (
-		"normal": rgb(230, 245, 255),
-		"hover": rgb(146, 148, 238),
-		"special": rgb(250, 230, 240),
-		"unique": rgb(240, 240, 220),
-	);
 
 	& > div {
 		margin: 20px 8px;
 		text-align: center;
 		flex-basis: 20%;
-		background-color: map.get($card-colors, "normal");
+		background-color: map.get(variables.$card-colors, "normal");
 		text-transform: capitalize;
 
 		&:hover {
-			background-color: map.get($card-colors, "hover");
+			background-color: map.get(variables.$card-colors, "hover");
 
 			.pkmn-entry,
 			.pkmn-entry:visited {

@@ -35,3 +35,10 @@ $shadow-expanded: 0rem 0.2rem 1.25rem;
 
 $shadow-color-regular: rgba(0, 0, 0, 0.5);
 $shadow-color-shiny: rgba(255, 217, 0, 0.75);
+
+$card-colors: (
+	"normal": rgb(230, 245, 255),
+	"hover": rgb(146, 148, 238),
+	"special": rgb(250, 230, 240),
+	"unique": rgb(240, 240, 220),
+);
