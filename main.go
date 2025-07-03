@@ -153,6 +153,7 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	for _, flavorText := range species.FlavorTextEntries {
+		// Only include english flavor texts, whose versions are not in 'omissions'
 		if (flavorText.Language.Name == "en" && !slices.Contains(omissions, flavorText.Version.Name)) {
 			flavorTexts = append(flavorTexts, flavorText)
 		}
