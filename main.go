@@ -11,6 +11,7 @@ import (
 	"slices"
 
 	"github.com/mtslzr/pokeapi-go/structs"
+	"github.com/samber/lo"
 	"github.com/savioxavier/termlink"
 )
 
@@ -158,6 +159,10 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 			flavorTexts = append(flavorTexts, flavorText)
 		}
 	}
+
+	flavorTexts = lo.UniqBy(flavorTexts, func(e FlavorText) string {
+		return e.FlavorText
+	})
 
 	data := PkmnData{
 		Pokemon: pkmn,
