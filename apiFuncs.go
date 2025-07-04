@@ -9,9 +9,7 @@ import (
 )
 
 func getNatlDex() structs.Pokedex {
-	dexURL := getAPILink("pokedex", "1")
-
-	dex, err := os.ReadFile(dexURL)
+	dex, err := os.ReadFile(getAPILink("pokedex", "1"))
 	if (err != nil) {
 		log.Fatalln("Dex fetch error:", err)
 	}

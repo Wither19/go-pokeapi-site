@@ -30,10 +30,17 @@
 					id="shiny-art"
 					class="artwork shiny hidden" />
 			</div>
-			<div class="dex-entries">
-			{{ range $flavor := .FlavorTexts }}
-			<p>{{$flavor.FlavorText}}</p>
+			<select class="dex-entry-select">
+			{{ range $i, $version := .DisplayVersions }}
+			<option value="{{index .FlavorTexts $i.Version.Name}}">
+			{{$version}}
+			</option>
 			{{ end }}
+			</select>
+			<div class="dex-entries">
+			{{/* {{ range $flavor := .FlavorTexts }}
+			<p>{{$flavor.FlavorText}}</p>
+			{{ end }} */}}
 			</div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>

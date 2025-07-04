@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os/exec"
 	"slices"
+	"strings"
 
 	"github.com/samber/lo"
 )
@@ -68,11 +69,16 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 		return e.FlavorText
 	})
 
+	displayVersions := lo.Map(flavorTexts, func(t FlavorText, i int) string {
+		return strings.ReplaceAll(t.Version.Name, "-", " ")
+	})
+
 	data := PkmnData{
 		Pokemon: pkmn,
 		PaddedID: paddedID, 
 		EnglishGenus: engGenus.Genus, 
 		FlavorTexts: flavorTexts,
+		DisplayVersions: displayVersions,
 	}
 
 	serverSassComp(false)
