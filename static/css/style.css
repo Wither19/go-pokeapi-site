@@ -146,7 +146,7 @@ sub {
 
 img.artwork {
   display: block;
-  width: 25vw;
+  width: 20vw;
   margin: 10px auto;
   text-align: center;
   transition: 300ms;
