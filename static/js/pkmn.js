@@ -24,14 +24,17 @@ function cycleFlavor() {
 	}
 
 	for (let tagID of flavorIds) {
+		const flavorElem = document.getElementById(tagID);
+		const flavorTitleElem = document.getElementById("title-" + tagID);
+
 		if (flavorIds.indexOf(tagID) == currentFlavor) {
-			document.getElementById(tagID).classList.remove("hidden");
+			flavorElem.classList.remove("hidden");
+			flavorTitleElem.classList.remove("hidden");
 		} else {
-			document.getElementById(tagID).classList.add("hidden");
+			flavorElem.classList.add("hidden");
+			flavorTitleElem.classList.add("hidden");
 		}
 	}
 }
 
-for (let tagID of flavorIds) {
-	document.getElementById("flavor-cycle-btn").addEventListener("click", cycleFlavor);
-}
+document.getElementById("flavor-cycle-btn").addEventListener("click", cycleFlavor);

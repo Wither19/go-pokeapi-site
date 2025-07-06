@@ -66,32 +66,30 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	flavorReturn := func(e FlavorText) string {
-		return e.FlavorText
-	}
+	
 
-	flavorVersionNames := func(t FlavorText, i int) string {
+	flavorTexts = lo.UniqBy(flavorTexts, func(e FlavorText) string {
+		return e.FlavorText
+	})
+
+	displayVersions := func(t FlavorText) string {
 		return strings.ReplaceAll(t.Version.Name, "-", " ")
 	}
-
-	flavorTexts = lo.UniqBy(flavorTexts, flavorReturn)
-
-	displayVersions := lo.Map(flavorTexts, flavorVersionNames)
 
 	data := PkmnData{
 		Pokemon: pkmn,
 		PaddedID: paddedID, 
 		EnglishGenus: engGenus.Genus, 
 		FlavorTexts: flavorTexts,
-		DisplayVersions: displayVersions,
 	}
 
 	serverSassComp(false)
 
-
-	
-	parseTemp("pkmn.tmpl", template.FuncMap{
+	tempFuncs := template.FuncMap{
 		"caps": capitalizeFirstLetter,
-	}).Execute(w, data)
+		"makeDisplayVersion": displayVersions,
+	}
+	
+	parseTemp("pkmn.tmpl", tempFuncs).Execute(w, data)
 
 }
