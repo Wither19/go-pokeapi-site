@@ -5,14 +5,15 @@ import (
 	"html/template"
 	"unicode"
 
+	"github.com/Masterminds/sprig/v3"
 	"github.com/savioxavier/termlink"
 )
 
 func parseTemp(n string, f template.FuncMap) *template.Template {
 	if (f != nil) {
-		return template.Must(template.New(n).Funcs(f).ParseFiles(n))	
+		return template.Must(template.New(n).Funcs(sprig.FuncMap()).Funcs(f).ParseFiles(n))	
 	} else {
-		return template.Must(template.New(n).ParseFiles(n))
+		return template.Must(template.New(n).Funcs(sprig.FuncMap()).ParseFiles(n))
 	}
 }
 

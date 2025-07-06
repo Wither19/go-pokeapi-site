@@ -238,6 +238,14 @@ sub.hidden {
   user-select: none;
 }
 
+.nav-btns {
+  text-align: center;
+  margin: 16px auto;
+}
+.nav-btns button {
+  font-size: 3rem;
+}
+
 .icon {
   height: 100px;
   width: 100px;

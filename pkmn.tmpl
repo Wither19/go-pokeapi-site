@@ -44,6 +44,17 @@
 				</div>
 				<button id="flavor-cycle-btn">Change Dex Entry</button>
 			</div>
+			<div class="nav-btns">
+				{{ if ne .Pokemon.ID 1 }}
+				<a href="/pkmn{{ sub .Pokemon.ID 1}}"><button>&lt;</button></a>
+				{{ end }}
+				{{ if ne .Pokemon.ID 1025 }}
+				<a href="/pkmn/{{ add .Pokemon.ID 1}}"><button>&gt;</button></a>	
+				{{ end }}			
+			</div>
+			<div class="nav-btns">
+			<a href="/pkmn/{{ randInt 1 1026 }}"><button>Surprise Me!</button></a>
+			<div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>
 	</body>
