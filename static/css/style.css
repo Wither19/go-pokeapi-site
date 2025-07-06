@@ -93,12 +93,19 @@ sub {
   text-transform: capitalize;
   border: 2px groove lightblue;
   border-radius: 0px 9px;
-  transition: 0.2s;
+  transition: border 0.2s, background-color 0.125s, transform 0.15s;
+}
+.pkmn-list > div img {
+  transition: transform 0.2s;
 }
 .pkmn-list > div:hover {
-  background-color: rgb(146, 148, 238);
-  border-color: cornflowerblue;
-  border-radius: 0px 3px;
+  background-color: rgb(123, 149, 237);
+  border-color: slateblue;
+  border-radius: 4px;
+  transform: translateY(-6px) scale(1.05);
+}
+.pkmn-list > div:hover img {
+  transform: scale(1);
 }
 .pkmn-list > div:hover .pkmn-entry,
 .pkmn-list > div:hover .pkmn-entry:visited {
@@ -138,8 +145,8 @@ sub {
 }
 
 img.artwork {
-  display: inherit;
-  width: 17.5vw;
+  display: block;
+  width: 25vw;
   margin: 10px auto;
   text-align: center;
   transition: 300ms;
@@ -183,6 +190,17 @@ img.artwork.hidden {
   padding: 2px 5px 2px 0px;
   border-radius: 3px;
   color: whitesmoke;
+}
+
+.dex-entries {
+  margin: 4px 17.5%;
+}
+.dex-entries p {
+  min-height: 80px;
+  line-height: 135%;
+}
+.dex-entries p.hidden {
+  display: none;
 }
 
 .entry-buttons {

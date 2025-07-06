@@ -10,7 +10,7 @@
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
 			rel="stylesheet" />
-		<title>Document</title>
+		<title>Pokedex Site - {{.Pokemon.Name | caps }}</title>
 	</head>
 	<body>
 		<div class="container">
@@ -30,17 +30,17 @@
 					id="shiny-art"
 					class="artwork shiny hidden" />
 			</div>
-			<select class="dex-entry-select">
-			{{ range $i, $version := .DisplayVersions }}
-			<option value="{{index .FlavorTexts $i.Version.Name}}">
-			{{$version}}
-			</option>
-			{{ end }}
-			</select>
-			<div class="dex-entries">
-			{{/* {{ range $flavor := .FlavorTexts }}
-			<p>{{$flavor.FlavorText}}</p>
-			{{ end }} */}}
+			<div style="text-align: center;">
+				<div class="dex-entries">
+				{{ range $i, $flavor := .FlavorTexts }}
+					{{ if eq $i 0 }}
+					<p id="{{$flavor.Version.Name}}">{{$flavor.FlavorText}}</p>
+					{{ else }}
+					<p class="hidden" id="{{$flavor.Version.Name}}">{{$flavor.FlavorText}}</p>
+					{{ end }}
+				{{ end }}
+				</div>
+				<button id="flavor-cycle-btn">Change Dex Entry</button>
 			</div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>

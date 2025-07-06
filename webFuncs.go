@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os/exec"
@@ -30,7 +31,7 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	parseTemp("main.tmpl").Execute(w, d)
+	parseTemp("main.tmpl", nil).Execute(w, d)
 }
 
 func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
@@ -65,13 +66,17 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	flavorTexts = lo.UniqBy(flavorTexts, func(e FlavorText) string {
+	flavorReturn := func(e FlavorText) string {
 		return e.FlavorText
-	})
+	}
 
-	displayVersions := lo.Map(flavorTexts, func(t FlavorText, i int) string {
+	flavorVersionNames := func(t FlavorText, i int) string {
 		return strings.ReplaceAll(t.Version.Name, "-", " ")
-	})
+	}
+
+	flavorTexts = lo.UniqBy(flavorTexts, flavorReturn)
+
+	displayVersions := lo.Map(flavorTexts, flavorVersionNames)
 
 	data := PkmnData{
 		Pokemon: pkmn,
@@ -83,6 +88,10 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	parseTemp("pkmn.tmpl").Execute(w, data)
+
+	
+	parseTemp("pkmn.tmpl", template.FuncMap{
+		"caps": capitalizeFirstLetter,
+	}).Execute(w, data)
 
 }

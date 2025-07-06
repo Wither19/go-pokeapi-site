@@ -61,8 +61,8 @@
 }
 
 img.artwork {
-	display: inherit;
-	width: 17.5vw;
+	display: block;
+	width: 25vw;
 	margin: 10px auto;
 	text-align: center;
 	transition: 300ms;
@@ -79,7 +79,6 @@ img.artwork {
 			filter: shadow(true, true);
 		}
 	}
-
 	&.hidden {
 		display: none;
 	}
@@ -111,14 +110,15 @@ img.artwork {
 }
 
 .dex-entries {
-	p {
-		// $dex-entry-line-height: 1.6em;
-		// $dex-entry-expanded-size: (variables.$base-font-size * strip-units($dex-entry-line-height)) * 3;
+	margin: 4px 17.5%;
 
-		// @include lock-size(width, 1000px);
-		// @include lock-size(height, $dex-entry-expanded-size);
-		// margin: 16px auto;
-		// line-height: $dex-entry-line-height;
+	p {
+		min-height: 80px;
+		line-height: 135%;
+
+		&.hidden {
+			display: none;
+		}
 	}
 }
 

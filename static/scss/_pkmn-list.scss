@@ -33,13 +33,23 @@
 		text-transform: capitalize;
 		border: 2px groove lightblue;
 		border-radius: 0px 9px;
-		transition: 0.2s;
+		transition: border 0.2s, background-color 0.125s, transform 0.15s;
+
+		img {
+			transition: transform 0.2s;
+		}
 
 		&:hover {
 			background-color: map.get(variables.$card-colors, "hover");
 
-			border-color: cornflowerblue;
-			border-radius: 0px 3px;
+			border-color: slateblue;
+			border-radius: 4px;
+
+			transform: translateY(-6px) scale(1.05);
+
+			img {
+				transform: scale(1);
+			}
 
 			.pkmn-entry,
 			.pkmn-entry:visited {
