@@ -196,7 +196,7 @@ img.artwork.hidden {
   margin: 4px 17.5%;
 }
 .dex-entries div p {
-  min-height: 80px;
+  min-height: 64px;
   line-height: 135%;
 }
 .dex-entries div sub {
@@ -243,6 +243,7 @@ img.artwork.hidden {
 }
 .nav-btns button {
   font-size: 3rem;
+  margin: 0px 10px;
 }
 
 .icon {
