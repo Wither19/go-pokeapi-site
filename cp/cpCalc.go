@@ -4,6 +4,8 @@ import "math"
 
 // CP = FLOOR(((Attack + Attack IV) * SQRT(Defense + Defense IV) * SQRT(Stamina + Stamina IV) * (CPM_AT_LEVEL(Level) ^ 2)) / 10)
 
+// https://www.reddit.com/r/TheSilphRoad/comments/4t7r4d/exact_pokemon_cp_formula/
+
 func CPMulti(lvl int) float64 {
   return math.Pow(CPMFullLevelSlice[lvl - 1], 2)
 }
