@@ -5,15 +5,11 @@ import (
 	"unicode"
 )
 
-
-
 func leadingZeroes(num int, length int) string {
 	return fmt.Sprintf("%0*d", length, num)
 }
 
-
-
-func capitalizeFirstLetter(s string) string {
+func caps(s string) string {
 	if len(s) == 0 {
 		return ""
 	}

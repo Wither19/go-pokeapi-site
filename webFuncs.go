@@ -15,11 +15,14 @@ import (
 )
 
 func parseTemp(n string, f template.FuncMap) *template.Template {
+
+	t := template.New(n).Funcs(sprig.FuncMap())
+
 	if (f != nil) {
-		return template.Must(template.New(n).Funcs(sprig.FuncMap()).Funcs(f).ParseFiles(n))	
-	} else {
-		return template.Must(template.New(n).Funcs(sprig.FuncMap()).ParseFiles(n))
-	}
+		t = t.Funcs(f)	
+	} 
+
+	return template.Must(t.ParseFiles(n))
 }
 
 func serverSassComp(l bool) {
@@ -100,7 +103,7 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	serverSassComp(false)
 
 	tempFuncs := template.FuncMap{
-		"caps": capitalizeFirstLetter,
+		"caps": caps,
 		"makeDisplayVersion": displayVersions,
 	}
 	
