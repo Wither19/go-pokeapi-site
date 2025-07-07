@@ -2,11 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/mtslzr/pokeapi-go/structs"
 )
+
+func getAPILink(cat string, id string) string {
+	return fmt.Sprintf("api-data/%v/%v/index.json", cat, id)
+}
 
 func getNatlDex() structs.Pokedex {
 	dex, err := os.ReadFile(getAPILink("pokedex", "1"))

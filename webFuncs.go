@@ -9,8 +9,18 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/Masterminds/sprig"
 	"github.com/samber/lo"
+	"github.com/savioxavier/termlink"
 )
+
+func parseTemp(n string, f template.FuncMap) *template.Template {
+	if (f != nil) {
+		return template.Must(template.New(n).Funcs(sprig.FuncMap()).Funcs(f).ParseFiles(n))	
+	} else {
+		return template.Must(template.New(n).Funcs(sprig.FuncMap()).ParseFiles(n))
+	}
+}
 
 func serverSassComp(l bool) {
 	sassSource := "./static/scss/App.scss"
@@ -24,6 +34,10 @@ func serverSassComp(l bool) {
 		fmt.Printf("Sass successfully transpiled to %v\n", newCss)
 
 	}
+}
+
+func serverActiveMsg(msg string, port string) {
+	fmt.Printf(msg, termlink.ColorLink(fmt.Sprintf("port %v", port), fmt.Sprintf("http://localhost%v", port), "blue"))
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
