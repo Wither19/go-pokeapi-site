@@ -9,10 +9,12 @@ import (
 	"github.com/mtslzr/pokeapi-go/structs"
 )
 
+// Since the API wants to be difficult on my home PC, this function gets the directory of the desired resource in the api-data folder.
 func getAPILink(cat string, id string) string {
 	return fmt.Sprintf("api-data/%v/%v/index.json", cat, id)
 }
 
+// Reads and unmarshals the json for the National Pokedex.
 func getNatlDex() structs.Pokedex {
 	dex, err := os.ReadFile(getAPILink("pokedex", "1"))
 	if (err != nil) {
@@ -29,6 +31,7 @@ func getNatlDex() structs.Pokedex {
 	return pokedex
 }
 
+// Reads and unmarshals the json for a Pokemon's general API entry, as specified by [id]
 func getPkmn(id string) structs.Pokemon {
 	pURL := getAPILink("pokemon", id)
 
@@ -46,6 +49,7 @@ func getPkmn(id string) structs.Pokemon {
 	return pkmn
 }
 
+// Reads and unmarshals the json for a Pokemon's species API entry, as specified by [id]
 func getPkmnSpecies(id string) structs.PokemonSpecies {
 	sURL := getAPILink("pokemon-species", id)
 	
