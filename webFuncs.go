@@ -15,12 +15,12 @@ import (
 )
 
 func parseTemp(n string, f template.FuncMap) *template.Template {
+	var t *template.Template
 
-	t := template.New(n).Funcs(sprig.FuncMap())
+	t = template.New(n)
+	t = t.Funcs(sprig.FuncMap())
+	t = t.Funcs(f)
 
-	if (f != nil) {
-		t = t.Funcs(f)	
-	} 
 
 	return template.Must(t.ParseFiles(n))
 }
@@ -48,7 +48,7 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	parseTemp("main.tmpl", nil).Execute(w, d)
+	parseTemp("main.html", nil).Execute(w, d)
 }
 
 func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
@@ -105,8 +105,9 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	tempFuncs := template.FuncMap{
 		"caps": caps,
 		"makeDisplayVersion": displayVersions,
+		"randomNumber": randomNumber,
 	}
 	
-	parseTemp("pkmn.tmpl", tempFuncs).Execute(w, data)
+	parseTemp("pkmn.html", tempFuncs).Execute(w, data)
 
 }

@@ -9,10 +9,8 @@ function togglePkmnArt() {
 regArt.addEventListener("click", togglePkmnArt);
 shinyArt.addEventListener("click", togglePkmnArt);
 
-const flavorTags = Array.from(document.querySelector(".dex-entries").children);
-const flavorIds = flavorTags.map((tag) => {
-	return tag.id;
-});
+const flavorContainers = Array.from(document.querySelectorAll(".dex-entries > div"));
+const flavorIds = flavorContainers.map((tag) => tag.id);
 
 var currentFlavor = 0;
 
@@ -24,15 +22,12 @@ function cycleFlavor() {
 	}
 
 	for (let tagID of flavorIds) {
-		const flavorElem = document.getElementById(tagID);
-		const flavorTitleElem = document.getElementById("title-" + tagID);
+		const flavorElem = document.querySelector(`div#${tagID}`);
 
 		if (flavorIds.indexOf(tagID) == currentFlavor) {
 			flavorElem.classList.remove("hidden");
-			flavorTitleElem.classList.remove("hidden");
 		} else {
 			flavorElem.classList.add("hidden");
-			flavorTitleElem.classList.add("hidden");
 		}
 	}
 }

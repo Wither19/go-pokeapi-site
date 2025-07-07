@@ -84,10 +84,6 @@ img.artwork {
 	}
 }
 
-sub.hidden {
-	display: none;
-}
-
 .stats {
 	margin-top: 20px;
 	margin-left: 2.5%;
@@ -116,9 +112,15 @@ sub.hidden {
 .dex-entries {
 	margin: 4px 17.5%;
 
-	p {
-		min-height: 80px;
-		line-height: 135%;
+	div {
+		p {
+			min-height: 80px;
+			line-height: 135%;
+		}
+
+		sub {
+			text-transform: capitalize;
+		}
 
 		&.hidden {
 			display: none;
