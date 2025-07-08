@@ -2,30 +2,35 @@ package main
 
 import "math"
 
-// CP = FLOOR(((Attack + Attack IV) * SQRT(Defense + Defense IV) * SQRT(Stamina + Stamina IV) * (CPM_AT_LEVEL(Level) ^ 2)) / 10)
+// https://db.pokemongohub.net/tools/cp-calculator
 
-// https://www.reddit.com/r/TheSilphRoad/comments/4t7r4d/exact_pokemon_cp_formula/
 
-func CPMulti(lvl int) float64 {
-  return math.Pow(CPMFullLevelSlice[lvl - 1], 2)
+func statFrac(n int) float64 {
+  return float64(n) / float64(8)
 }
 
-func baseStamina(hp int) float64 {
-  return float64(2 * hp)
-}
+// FLOOR(((Attack + Attack IV) * SQRT(Defense + Defense IV) * SQRT(Stamina + Stamina IV) * (CPM_AT_LEVEL(Level) ^ 2)) / 10)
+func CPCalc(stats []float64, lvl int, atkIV int, defIV int, staIV int) int {
+// HP, Atk, Def, SpAtk, SpDef, Spd
+  higherAtk := math.Max(stats[1], stats[3])
+  lowerAtk := math.Min(stats[1], stats[3])
 
-func baseStatFormula(physical int, special int, speed int) float64 {
-  avg := math.Sqrt(float64(physical)) * math.Sqrt(float64(special)) + math.Sqrt(float64(speed))
+  higherDef := math.Max(stats[2], stats[4])
+  lowerDef := math.Min(stats[2], stats[4])
 
-  return float64(2) * math.Round(avg)
-}
 
-func finalStatCalc(baseStat float64, iv int, cpMulti float64) float64 {
-  return (baseStat + float64(iv)) * cpMulti
-}
+  scaledAttack := math.Round(2 * (statFrac(7) * higherAtk + statFrac(1) * lowerAtk))
 
-func cpCalc(atk float64, def float64, sta float64) int {
-  cp := int(math.Round(math.Max(10, math.Floor(math.Sqrt(sta) * atk * math.Sqrt(def) / 10))))
+  scaledDefense := math.Round(2 * (statFrac(5) * higherDef + statFrac(3) * lowerDef))
 
-  return cp
+  speedMod := 1 + (stats[5] - 75) / 500
+
+  
+  baseAttack := math.Round(scaledAttack * speedMod)
+  baseDefense := math.Round(scaledDefense * speedMod)
+  baseStamina := math.Floor(stats[0] * 1.75 + 50)
+
+  cp := math.Max(10, math.Floor(((baseAttack + float64(atkIV)) * math.Sqrt(baseDefense + float64(defIV)) * math.Pow(baseStamina + float64(staIV), 0.5) * math.Pow(cpm[lvl - 1], 2)) / 10))
+
+  return int(cp)
 }

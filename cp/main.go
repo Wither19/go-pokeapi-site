@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/mtslzr/pokeapi-go/structs"
 	"github.com/samber/lo"
@@ -43,7 +44,7 @@ func main() {
 	var def string
 	var sta string
 
-	fmt.Print("Provide Pokemon ID: ")
+	fmt.Print("Provide Pokedex #: ")
 	fmt.Scanln(&id)
 
 	fmt.Print("Provide level: ")
@@ -63,6 +64,16 @@ func main() {
 	fmt.Print("Provide Stamina IV: ")
 	fmt.Scanln(&sta)
 
+	c := getPkmn(id)
+
+	var response string
+	fmt.Printf("Calculating for #%d %v at Level %v with IVs of %v, %v and %v. is this correct? (y / n) ", c.ID, c.Name, lvl, atk, def, sta)
+	fmt.Scanln(&response)
+
+	if (strings.ToLower(response) != "y") {
+		os.Exit(1)
+	}
+
 	intAtk, err := strconv.ParseInt(atk, 0, 0)
 	if (err != nil) {
 		log.Fatalln("Number conversion error:", err)
@@ -78,20 +89,16 @@ func main() {
 		log.Fatalln("Number conversion error:", err)
 	}
 
-	stats := lo.Map(getPkmn(id).Stats, func(t struct{BaseStat int "json:\"base_stat\""; Effort int "json:\"effort\""; Stat struct{Name string "json:\"name\""; URL string "json:\"url\""} "json:\"stat\""}, i int) int {
+	statsObj := getPkmn(id).Stats
+
+	stats := lo.Map(statsObj, func(t struct{BaseStat int "json:\"base_stat\""; Effort int "json:\"effort\""; Stat struct{Name string "json:\"name\""; URL string "json:\"url\""} "json:\"stat\""}, i int) int {
 		return t.BaseStat
 	})
-	
-	cpm := CPMulti(int(intLvl))
 
-	baseSta := baseStamina(stats[0])
-	
-	baseAtk := baseStatFormula(stats[1], stats[3], stats[5])
-	baseDef := baseStatFormula(stats[2], stats[4], stats[5])
+	floatStats := lo.Map(stats, func(t int, i int) float64 {
+		return float64(t)
+	})	
 
-	finalAtk := finalStatCalc(baseAtk, int(intAtk), cpm)
-	finalDef := finalStatCalc(baseDef, int(intDef), cpm)
-	finalSta := finalStatCalc(baseSta, int(intSta), cpm)
+	fmt.Println(CPCalc(floatStats, int(intLvl), int(intAtk), int(intDef), int(intSta)))
 
-	fmt.Print(cpCalc(finalAtk, finalDef, finalSta))
 }
