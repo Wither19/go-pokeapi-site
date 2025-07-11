@@ -30,13 +30,12 @@ func serverSassComp(l bool) {
 	sassSource := "./static/scss/App.scss"
 	newCss := "./static/css/style.css"
 
-	sassBuild := exec.Command("sass", sassSource, newCss, "--no-source-map")
+	sassBuild := exec.Command("sass", sassSource, newCss)
+
 	if err := sassBuild.Run(); err != nil {
 		log.Fatalln("Sass build error:", err)
-
 	} else if (l) {
 		fmt.Printf("Sass successfully transpiled to %v\n", newCss)
-
 	}
 }
 
