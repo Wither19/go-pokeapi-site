@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os/exec"
 	"slices"
-	"strings"
 
 	"github.com/Masterminds/sprig"
 	"github.com/samber/lo"
@@ -19,8 +18,10 @@ func parseTemp(n string, f template.FuncMap) *template.Template {
 
 	t = template.New(n)
 	t = t.Funcs(sprig.FuncMap())
-	t = t.Funcs(f)
-
+	
+	if (f != nil) {
+		t = t.Funcs(f)
+	}
 
 	return template.Must(t.ParseFiles(n))
 }
@@ -83,15 +84,9 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	
-
 	flavorTexts = lo.UniqBy(flavorTexts, func(e FlavorText) string {
 		return e.FlavorText
 	})
-
-	displayVersions := func(t FlavorText) string {
-		return strings.ReplaceAll(t.Version.Name, "-", " ")
-	}
 
 	data := PkmnData{
 		Pokemon: pkmn,
@@ -102,12 +97,12 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 
 	serverSassComp(false)
 
-	tempFuncs := template.FuncMap{
-		"caps": caps,
-		"makeDisplayVersion": displayVersions,
-		"randomNumber": randomNumber,
-	}
-	
-	parseTemp("pkmn.html", tempFuncs).Execute(w, data)
+	parseTemp("pkmn.html", nil).Execute(w, data)
+}
 
+func pkmnRandomize(w http.ResponseWriter, r *http.Request) {
+	randomID := randomNumber(1, 1026)
+	randPkmnUrl := fmt.Sprintf("/pkmn/%v", randomID)
+
+	http.Redirect(w, r, randPkmnUrl, http.StatusFound)
 }

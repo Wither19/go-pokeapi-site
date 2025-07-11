@@ -28,5 +28,4 @@ type PkmnData struct {
 	PaddedID string
 	EnglishGenus string
 	FlavorTexts []FlavorText
-	DisplayVersions []string
 }

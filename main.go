@@ -11,6 +11,7 @@ func main() {
 
 	http.HandleFunc("/", mainPageHandle)
 	http.HandleFunc("/pkmn/{id}", pkmnLoadfunc)
+	http.HandleFunc("/random", pkmnRandomize)
 
 	serverPort := ":8080"
 	serverActiveMsg("Server active at %v\n", serverPort)

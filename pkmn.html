@@ -10,7 +10,7 @@
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
 			rel="stylesheet" />
-		<title>Pokedex - {{ .Pokemon.Name | caps }}</title>
+		<title>Pokedex - {{ .Pokemon.Name | title | replace "-" " " }}</title>
 	</head>
 	<body>
 		<div class="container">
@@ -18,7 +18,7 @@
 
 			<div class="pkmn-num-header">#{{.PaddedID}}</div>
 			<div class="pkmn-genus-header">{{.EnglishGenus}}</div>
-			<h1 class="pkmn-name-header">{{.Pokemon.Name}}</h1>
+			<h1 class="pkmn-name-header">{{.Pokemon.Name | replace "-" " "}}</h1>
 
 			<div style="display: flex; justify-content: center">
 				<img
@@ -40,7 +40,7 @@
 					<div id="{{$flavor.Version.Name}}" class='{{ if ne $i 0 }} {{ "hidden" }} {{ end }}'>
 
 					<p>{{$flavor.FlavorText}}</p>
-					<sub>Pokemon {{$flavor | makeDisplayVersion }}</sub>
+					<sub>Pokemon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
 
 					</div>
 				{{ end }}
@@ -61,7 +61,7 @@
 				{{ end }}			
 			</div>
 			<div class="nav-btns">
-			<a href="/pkmn/{{ randomNumber 1 1026 }}"><button>Surprise Me!</button></a>
+			<a href="/random"><button>Surprise Me!</button></a>
 			<div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>
