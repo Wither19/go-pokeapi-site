@@ -13,9 +13,10 @@
 		<title>Pokedex - {{ .Pokemon.Name | title | replace "-" " " }}</title>
 	</head>
 	<body>
-		<div class="container">
+		<div class="menu-container">
 			<a class="back-btn" href="/"><button>&lt; Back</button></a>
 
+			<div>
 			<div class="pkmn-num-header">#{{.Pokemon.ID }}</div>
 			<div class="pkmn-genus-header">{{.EnglishGenus}}</div>
 			<h1 class="pkmn-name-header">{{.Pokemon.Name | replace "-" " "}}</h1>
@@ -38,8 +39,9 @@
 				<div class="icon {{ $type.Type.Name }}"><img src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ $type.Type.Name }}.svg" /></div>
 				{{ end }}
 			</div>
-
-			<div style="text-align: center;">
+		</div>
+		<div>
+				<div style="text-align: center;">
 
 				<div class="dex-entries">
 				{{ range $i, $flavor := .FlavorTexts }}
@@ -54,20 +56,17 @@
 
 				<button id="flavor-cycle-btn">Change Dex Entry</button>
 			</div>
-
+		</div>
 			<div class="nav-btns">
 				{{ if ne .Pokemon.ID 1 }}
 				<a href="/pkmn/{{ sub .Pokemon.ID 1}}"><button>&lt;</button></a>
-
 				{{ end }}
-
+				<a href="/random"><button>Surprise Me!</button></a>
 				{{ if ne .Pokemon.ID 1025 }}
 				<a href="/pkmn/{{ add .Pokemon.ID 1}}"><button>&gt;</button></a>	
-				
 				{{ end }}			
 			</div>
 			<div class="nav-btns">
-			<a href="/random"><button>Surprise Me!</button></a>
 			<div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>

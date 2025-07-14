@@ -35,6 +35,7 @@
 	min-#{$d}: $s;
 	max-#{$d}: $s;
 }
+
 .pkmn-name-header {
 	text-align: center;
 	text-transform: capitalize;
@@ -174,5 +175,6 @@ img.artwork {
 	button {
 		font-size: 2.5rem;
 		margin: 0px 10px;
+		cursor: pointer;
 	}
 }
