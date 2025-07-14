@@ -33,6 +33,12 @@
 					class="artwork shiny hidden" />
 			</div>
 
+			<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+				{{ range $type := .Pokemon.Types }}
+				<div class="icon {{ $type.Type.Name }}"><img src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ $type.Type.Name }}.svg" /></div>
+				{{ end }}
+			</div>
+
 			<div style="text-align: center;">
 
 				<div class="dex-entries">
