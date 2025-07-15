@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os/exec"
 	"slices"
+	"strconv"
+	"strings"
 
 	"github.com/Masterminds/sprig"
 	"github.com/samber/lo"
@@ -51,7 +53,7 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 	parseTemp("main.html", nil).Execute(w, d)
 }
 
-func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
+func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 	pkmnID := r.PathValue("id")
 
 	pkmn := getPkmn(pkmnID)
@@ -97,6 +99,24 @@ func pkmnLoadfunc(w http.ResponseWriter, r *http.Request) {
 	serverSassComp(false)
 
 	parseTemp("pkmn.html", nil).Execute(w, data)
+}
+
+func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
+	currentPkmn, _ := strconv.ParseInt(strings.ReplaceAll(r.PathValue("id"), "/prev", ""), 0, 0)
+	currentPkmn -= 1
+
+	prevPkmnUrl := fmt.Sprintf("/pkmn/%d", currentPkmn)
+
+	http.Redirect(w, r, prevPkmnUrl, http.StatusFound)
+}
+
+func nextPkmnLoad(w http.ResponseWriter, r *http.Request) {
+	currentPkmn, _ := strconv.ParseInt(strings.ReplaceAll(r.PathValue("id"), "/next", ""), 0, 0)
+	currentPkmn += 1
+
+	nextPkmnUrl := fmt.Sprintf("/pkmn/%d", currentPkmn)
+
+	http.Redirect(w, r, nextPkmnUrl, http.StatusFound)
 }
 
 func pkmnRandomize(w http.ResponseWriter, r *http.Request) {

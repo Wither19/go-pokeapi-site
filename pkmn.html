@@ -48,7 +48,7 @@
 					<div id="{{$flavor.Version.Name}}" class='{{ if ne $i 0 }} {{ "hidden" }} {{ end }}'>
 
 					<p>{{$flavor.FlavorText}}</p>
-					<sub>Pokemon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
+					<sub>Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
 
 					</div>
 				{{ end }}
@@ -59,11 +59,11 @@
 		</div>
 			<div class="nav-btns">
 				{{ if ne .Pokemon.ID 1 }}
-				<a href="/pkmn/{{ sub .Pokemon.ID 1}}"><button>&lt;</button></a>
+				<a href="/pkmn/{{ .Pokemon.ID }}/prev"><button>&lt;</button></a>
 				{{ end }}
 				<a href="/random"><button>Surprise Me!</button></a>
 				{{ if ne .Pokemon.ID 1025 }}
-				<a href="/pkmn/{{ add .Pokemon.ID 1}}"><button>&gt;</button></a>	
+				<a href="/pkmn/{{ .Pokemon.ID }}/next"><button>&gt;</button></a>	
 				{{ end }}			
 			</div>
 			<div class="nav-btns">
