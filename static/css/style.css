@@ -70,6 +70,57 @@ sub {
   font-family: "Ubuntu Sans", sans-serif;
 }
 
+.pokedex-app-container {
+  margin: 24px 3%;
+  display: block;
+}
+
+.region-select {
+  margin: 16px;
+}
+
+.pkmn-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 12px auto;
+}
+.pkmn-list > div {
+  margin: 20px 8px;
+  text-align: center;
+  flex-basis: 20%;
+  background-color: rgb(230, 245, 255);
+  text-transform: capitalize;
+  border: 2px groove lightblue;
+  border-radius: 0px 9px;
+  transition: border 0.2s, background-color 0.125s, transform 0.15s;
+}
+.pkmn-list > div img {
+  transition: transform 0.2s;
+}
+.pkmn-list > div:hover {
+  background-color: rgb(123, 149, 237);
+  border-color: slateblue;
+  border-radius: 4px;
+  transform: translateY(-6px) scale(1.05);
+}
+.pkmn-list > div:hover img {
+  transform: scale(1);
+}
+.pkmn-list > div:hover .pkmn-entry,
+.pkmn-list > div:hover .pkmn-entry:visited {
+  color: whitesmoke;
+}
+.pkmn-list .pkmn-entry,
+.pkmn-list .pkmn-entry:visited {
+  color: darkblue;
+  text-decoration: none;
+}
+.pkmn-list .pkmn-entry div:nth-of-type(2),
+.pkmn-list .pkmn-entry:visited div:nth-of-type(2) {
+  padding-bottom: 12px;
+}
+
 .icon {
   height: 100px;
   width: 100px;
@@ -428,6 +479,10 @@ li .water {
 
 li:has(.water) {
   margin: 24px 4px;
+}
+
+.dn {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

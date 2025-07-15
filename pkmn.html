@@ -41,7 +41,7 @@
 		<div>
 				<div>
 				{{ range $i, $flavor := .FlavorTexts }}
-					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug">
+					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} dn {{ end }} text-center leading-snug">
 
 					<p>{{$flavor.FlavorText}}</p>
 					<sub class="text-base">Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
@@ -50,7 +50,7 @@
 				{{ end }}
 				</div>
 
-				<button id="flavor-cycle-btn">Change Dex Entry</button>
+				<button class="text-white bg-violet-400 hover:bg-violet-500 mx-auto my-4 px-3 py-1 rounded" id="flavor-cycle-btn">Change Dex Entry</button>
 		</div>
 			<div>
 				{{ if ne .Pokemon.ID 1 }}

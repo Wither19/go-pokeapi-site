@@ -25,9 +25,9 @@ function cycleFlavor() {
 		const flavorElem = document.querySelector(`div#${tagID}`);
 
 		if (flavorIds.indexOf(tagID) == currentFlavor) {
-			flavorElem.classList.remove("hidden");
+			flavorElem.classList.remove("dn");
 		} else {
-			flavorElem.classList.add("hidden");
+			flavorElem.classList.add("dn");
 		}
 	}
 }
