@@ -4,7 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="/static/css/style.css" />
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -13,51 +14,45 @@
 		<title>Pokedex - {{ .Pokemon.Name | title | replace "-" " " }}</title>
 	</head>
 	<body>
-		<div class="menu-container">
-			<a class="back-btn" href="/"><button>&lt; Back</button></a>
-
-			<div>
-			<div class="pkmn-num-header">#{{.Pokemon.ID }}</div>
-			<div class="pkmn-genus-header">{{.EnglishGenus}}</div>
-			<h1 class="pkmn-name-header">{{.Pokemon.Name | replace "-" " "}}</h1>
+		<div>
+			<a class="bg-violet-400 hover:bg-violet-500 mx-3 mt-6 px-3 py-1 text-white rounded transition-colors duration-150ms" href="/">&lt; Back</a>
+			<div class="text-center text-xl">#{{.Pokemon.ID }}</div>
+			<div class="text-center text-xl font-bold mb-2">{{.EnglishGenus}}</div>
+			<h1 class="text-center text-3xl font-bold capitalize">{{.Pokemon.Name | replace "-" " "}}</h1>
 
 			<div style="display: flex; justify-content: center">
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="regular-art"
-					class="artwork regular" />
+					class="artwork regular w-70 drop-shadow-lg" />
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="shiny-art"
-					class="artwork shiny hidden" />
+					class="artwork shiny hidden w-70 drop-shadow-lg" />
 			</div>
 
-			<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+			<div class="flex flex-wrap justify-center my-4 mx-2">
 				{{ range $type := .Pokemon.Types }}
 				<div class="icon {{ $type.Type.Name }}"><img src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ $type.Type.Name }}.svg" /></div>
 				{{ end }}
 			</div>
-		</div>
 		<div>
-				<div style="text-align: center;">
-
-				<div class="dex-entries">
+				<div>
 				{{ range $i, $flavor := .FlavorTexts }}
-					<div id="{{$flavor.Version.Name}}" class='{{ if ne $i 0 }} {{ "hidden" }} {{ end }}'>
+					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug">
 
 					<p>{{$flavor.FlavorText}}</p>
-					<sub>Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
+					<sub class="text-base">Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
 
 					</div>
 				{{ end }}
 				</div>
 
 				<button id="flavor-cycle-btn">Change Dex Entry</button>
-			</div>
 		</div>
-			<div class="nav-btns">
+			<div>
 				{{ if ne .Pokemon.ID 1 }}
 				<a href="/pkmn/{{ .Pokemon.ID }}/prev"><button>&lt;</button></a>
 				{{ end }}
@@ -66,7 +61,7 @@
 				<a href="/pkmn/{{ .Pokemon.ID }}/next"><button>&gt;</button></a>	
 				{{ end }}			
 			</div>
-			<div class="nav-btns">
+			<div>
 			<div>
 		</div>
 		<script src="/static/js/pkmn.js"></script>
