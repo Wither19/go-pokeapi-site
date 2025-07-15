@@ -18,7 +18,6 @@ func main() {
 	http.HandleFunc("/random", pkmnRandomize)
 
 	serverPort := ":8080"
-	serverActiveMsg("Server active at %v\n", serverPort)
 
 	http.ListenAndServe(serverPort, nil)
 }

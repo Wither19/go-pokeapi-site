@@ -12,9 +12,9 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/samber/lo"
-	"github.com/savioxavier/termlink"
 )
 
+// Returns a parsed template of the filename provided by n. If f is non-nil it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
 func parseTemp(n string, f template.FuncMap) *template.Template {
 	var t *template.Template
 
@@ -28,6 +28,7 @@ func parseTemp(n string, f template.FuncMap) *template.Template {
 	return template.Must(t.ParseFiles(n))
 }
 
+// (Requires Dart Sass to be installed, and in your $PATH) Transpiles the SASS at sassSource, to newCss. l is whether to inform of a transpile to standard output. 
 func serverSassComp(l bool) {
 	sassSource := "./static/scss/App.scss"
 	newCss := "./static/css/style.css"
@@ -39,10 +40,6 @@ func serverSassComp(l bool) {
 	} else if (l) {
 		fmt.Printf("Sass successfully transpiled to %v\n", newCss)
 	}
-}
-
-func serverActiveMsg(msg string, port string) {
-	fmt.Printf(msg, termlink.ColorLink(fmt.Sprintf("port %v", port), fmt.Sprintf("http://localhost%v", port), "blue"))
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
@@ -70,7 +67,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	flavorTexts := []FlavorText{}
+	var flavorTexts []FlavorText
 
 	omissions := []string{
 		"red", "blue", "yellow", "gold", "silver", "crystal",
