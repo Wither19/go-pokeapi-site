@@ -21,13 +21,15 @@ function cycleFlavor() {
 		currentFlavor++;
 	}
 
+	const hiddenClass = "hidden"
+
 	for (let tagID of flavorIds) {
 		const flavorElem = document.querySelector(`div#${tagID}`);
 
 		if (flavorIds.indexOf(tagID) == currentFlavor) {
-			flavorElem.classList.remove("dn");
+			flavorElem.classList.remove(hiddenClass);
 		} else {
-			flavorElem.classList.add("dn");
+			flavorElem.classList.add(hiddenClass);
 		}
 	}
 }

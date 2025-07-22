@@ -4,28 +4,35 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="/static/css/style.css" />
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+		<link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap"
+			rel="stylesheet" />
 		<title>Pokedex - Home</title>
 	</head>
 	<body>
 		<div class="pokedex-app-container">
-			<div class="pkmn-list">
-			{{ range $pkmn := . }}
 			<div>
-				<a href="pkmn/{{$pkmn.EntryNumber}}" class="pkmn-entry">
-				<div>
-					<img
-					src="https://img.pokemondb.net/sprites/scarlet-violet/icon/avif/{{ $pkmn.PokemonSpecies.Name }}.avif"
-					alt="{{ $pkmn.PokemonSpecies.Name }}" />
-				</div>
-				<div>#{{ $pkmn.EntryNumber }} {{ $pkmn.PokemonSpecies.Name }}</div>
-				</a>
+				<input type="text" id="pkmn-search-bar" />
+				<button id="pkmn-search-btn">Go</button>
 			</div>
-			{{ end }}
+			<div class="pkmn-list">
+				{{ range $pkmn := . }}
+				<div>
+					<a href="pkmn/{{$pkmn.EntryNumber}}" class="pkmn-entry">
+						<div>
+							<img
+								src="https://img.pokemondb.net/sprites/scarlet-violet/icon/avif/{{ $pkmn.PokemonSpecies.Name }}.avif"
+								alt="{{ $pkmn.PokemonSpecies.Name }}" />
+						</div>
+						<div>#{{ $pkmn.EntryNumber }} {{ $pkmn.PokemonSpecies.Name }}</div>
+					</a>
+				</div>
+				{{ end }}
+			</div>
 		</div>
-		</div>
+		<script src="/static/js/main.js"></script>
 	</body>
 </html>

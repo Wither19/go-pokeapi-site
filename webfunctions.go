@@ -20,16 +20,16 @@ func parseTemp(n string, f template.FuncMap) *template.Template {
 
 	t = template.New(n)
 	t = t.Funcs(sprig.FuncMap())
-	
-	if (f != nil) {
+
+	if f != nil {
 		t = t.Funcs(f)
 	}
 
 	return template.Must(t.ParseFiles(n))
 }
 
-// (Requires Dart Sass to be installed, and in your $PATH) Transpiles the SASS at sassSource, to newCss. l is whether to inform of a transpile to standard output. 
-func serverSassComp(l bool) {
+// (Requires Dart Sass to be installed, and in your $PATH) Transpiles the SASS at sassSource, to newCss. l is whether to inform of a transpile to standard output.
+func serverSassComp() {
 	sassSource := "./static/scss/App.scss"
 	newCss := "./static/css/style.css"
 
@@ -37,17 +37,40 @@ func serverSassComp(l bool) {
 
 	if err := sassBuild.Run(); err != nil {
 		log.Fatalln("Sass build error:", err)
-	} else if (l) {
-		fmt.Printf("Sass successfully transpiled to %v\n", newCss)
 	}
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 	d := getNatlDex().PokemonEntries
 
-	serverSassComp(false)
+	serverSassComp()
 
 	parseTemp("main.html", nil).Execute(w, d)
+}
+
+func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
+	d := getNatlDex().PokemonEntries
+	searchTerm := r.PathValue("search")
+
+	filteredDex := lo.Filter(d, func(item struct {
+		EntryNumber    int "json:\"entry_number\""
+		PokemonSpecies struct {
+			Name string "json:\"name\""
+			URL  string "json:\"url\""
+		} "json:\"pokemon_species\""
+	}, i int) bool {
+		var c bool
+		if _, err := strconv.ParseInt(searchTerm, 0, 0); err != nil {
+			c = strings.Contains(item.PokemonSpecies.Name, searchTerm)
+		} else {
+			c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
+		}
+		return c
+	})
+
+	serverSassComp()
+
+	parseTemp("main.html", nil).Execute(w, filteredDex)
 }
 
 func pkmnLoad(w http.ResponseWriter, r *http.Request) {
@@ -74,10 +97,10 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		"ruby", "sapphire", "emerald", "firered", "leafgreen",
 		"diamond", "pearl", "platinum", "heartgold", "soulsilver", "black", "white", "black-2", "white-2",
 	}
-	
+
 	for _, flavorText := range species.FlavorTextEntries {
 		// Only include english flavor texts, whose versions are not in 'omissions'
-		if (flavorText.Language.Name == "en" && !slices.Contains(omissions, flavorText.Version.Name)) {
+		if flavorText.Language.Name == "en" && !slices.Contains(omissions, flavorText.Version.Name) {
 			flavorTexts = append(flavorTexts, flavorText)
 		}
 	}
@@ -87,13 +110,13 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 	})
 
 	data := PkmnData{
-		Pokemon: pkmn,
-		PaddedID: paddedID, 
-		EnglishGenus: engGenus.Genus, 
-		FlavorTexts: flavorTexts,
+		Pokemon:      pkmn,
+		PaddedID:     paddedID,
+		EnglishGenus: engGenus.Genus,
+		FlavorTexts:  flavorTexts,
 	}
 
-	serverSassComp(false)
+	serverSassComp()
 
 	parseTemp("pkmn.html", nil).Execute(w, data)
 }

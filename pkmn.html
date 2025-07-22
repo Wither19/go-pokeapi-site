@@ -39,11 +39,11 @@
 				{{ end }}
 			</div>
 		<div>
-				<div>
+				<div class="dex-entries">
 				{{ range $i, $flavor := .FlavorTexts }}
-					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} dn {{ end }} text-center leading-snug">
+					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug mx-2">
 
-					<p>{{$flavor.FlavorText}}</p>
+					<p class="mx-4">{{$flavor.FlavorText}}</p>
 					<sub class="text-base">Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
 
 					</div>

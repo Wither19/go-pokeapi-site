@@ -5,11 +5,13 @@ import (
 )
 
 func main() {
-	serverSassComp(true)
-	
+	serverSassComp()
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	http.HandleFunc("/", mainPageHandle)
+	http.HandleFunc("/search/{search}", mainPagePkmnSearch)
+
 	http.HandleFunc("/pkmn/{id}", pkmnLoad)
 
 	http.HandleFunc("/pkmn/{id}/prev", prevPkmnLoad)
