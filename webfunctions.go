@@ -14,7 +14,7 @@ import (
 	"github.com/samber/lo"
 )
 
-// Returns a parsed template of the filename provided by n. If f is non-nil it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
+// Returns a parsed template of the filename provided by n. If f is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
 func parseTemp(n string, f template.FuncMap) *template.Template {
 	var t *template.Template
 
@@ -28,7 +28,7 @@ func parseTemp(n string, f template.FuncMap) *template.Template {
 	return template.Must(t.ParseFiles(n))
 }
 
-// (Requires Dart Sass to be installed, and in your $PATH) Transpiles the SASS at sassSource, to newCss. l is whether to inform of a transpile to standard output.
+// Transpiles the SASS at sassSource, to newCss. Requires Dart Sass to be installed, and in your $PATH
 func serverSassComp() {
 	sassSource := "./static/scss/App.scss"
 	newCss := "./static/css/style.css"
