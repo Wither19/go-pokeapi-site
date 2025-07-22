@@ -11,6 +11,7 @@ func main() {
 
 	http.HandleFunc("/", mainPageHandle)
 	http.HandleFunc("/search/{search}", mainPagePkmnSearch)
+	http.HandleFunc("/search/", pkmnSearchNotFound)
 
 	http.HandleFunc("/pkmn/{id}", pkmnLoad)
 

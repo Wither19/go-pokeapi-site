@@ -19,9 +19,9 @@
 				<button id="pkmn-search-btn">Go</button>
 			</div>
 			<div class="pkmn-list">
-				{{ range $pkmn := . }}
+				{{ if ne (len .) 0 }} {{ range $pkmn := . }}
 				<div>
-					<a href="pkmn/{{$pkmn.EntryNumber}}" class="pkmn-entry">
+					<a href="/pkmn/{{$pkmn.EntryNumber}}" class="pkmn-entry">
 						<div>
 							<img
 								src="https://img.pokemondb.net/sprites/scarlet-violet/icon/avif/{{ $pkmn.PokemonSpecies.Name }}.avif"
@@ -30,6 +30,8 @@
 						<div>#{{ $pkmn.EntryNumber }} {{ $pkmn.PokemonSpecies.Name }}</div>
 					</a>
 				</div>
+				{{ end }} {{ else }}
+				<h2>No Pokemon Found</h2>
 				{{ end }}
 			</div>
 		</div>

@@ -5,4 +5,8 @@ function pkmnSearch() {
 
 
 document.getElementById("pkmn-search-btn").addEventListener("click", pkmnSearch)
-document.getElementById("pkmn-search-bar").addEventListener("submit", pkmnSearch);
+document.getElementById("pkmn-search-bar").addEventListener("keydown", (e) => {
+	if (e.key == "enter") {
+		pkmnSearch();
+	}
+});
