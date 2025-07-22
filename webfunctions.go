@@ -52,25 +52,29 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 	d := getNatlDex().PokemonEntries
 	searchTerm := r.PathValue("search")
 
-	filteredDex := lo.Filter(d, func(item struct {
-		EntryNumber    int "json:\"entry_number\""
-		PokemonSpecies struct {
-			Name string "json:\"name\""
-			URL  string "json:\"url\""
-		} "json:\"pokemon_species\""
-	}, i int) bool {
-		var c bool
-		if _, err := strconv.ParseInt(searchTerm, 0, 0); err != nil {
-			c = strings.Contains(item.PokemonSpecies.Name, searchTerm)
-		} else {
-			c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
-		}
-		return c
-	})
+	if searchTerm == "" {
+		http.Redirect(w, r, "/", http.StatusFound)
+	} else {
+		filteredDex := lo.Filter(d, func(item struct {
+			EntryNumber    int "json:\"entry_number\""
+			PokemonSpecies struct {
+				Name string "json:\"name\""
+				URL  string "json:\"url\""
+			} "json:\"pokemon_species\""
+		}, i int) bool {
+			var c bool
+			if _, err := strconv.ParseInt(searchTerm, 0, 0); err != nil {
+				c = strings.Contains(item.PokemonSpecies.Name, searchTerm)
+			} else {
+				c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
+			}
+			return c
+		})
 
-	serverSassComp()
+		serverSassComp()
 
-	parseTemp("main.html", nil).Execute(w, filteredDex)
+		parseTemp("main.html", nil).Execute(w, filteredDex)
+	}
 }
 
 func pkmnLoad(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,6 @@
 function pkmnSearch() {
 	const searchTerm = document.getElementById("pkmn-search-bar").value;
-	window.location.href = searchTerm;
+	window.location.href = `/search/${searchTerm}`;
 }
 
 
