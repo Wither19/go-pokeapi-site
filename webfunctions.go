@@ -52,30 +52,42 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 	d := getNatlDex().PokemonEntries
 	searchTerm := r.PathValue("search")
 
-	filteredDex := lo.Filter(d, func(item struct {
-		EntryNumber    int "json:\"entry_number\""
-		PokemonSpecies struct {
-			Name string "json:\"name\""
-			URL  string "json:\"url\""
-		} "json:\"pokemon_species\""
-	}, i int) bool {
-		var c bool
-		if _, err := strconv.ParseInt(searchTerm, 0, 0); err != nil {
-			c = strings.Contains(item.PokemonSpecies.Name, searchTerm)
-		} else {
-			c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
-		}
-		return c
-	})
+	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
+		http.Redirect(w, r, fmt.Sprintf("/pkmn/%v", searchTerm), http.StatusFound)
+	} else {
+		filteredDex := lo.Filter(d, func(item struct {
+			EntryNumber    int "json:\"entry_number\""
+			PokemonSpecies struct {
+				Name string "json:\"name\""
+				URL  string "json:\"url\""
+			} "json:\"pokemon_species\""
+		}, i int) bool {
+			var c bool
+			if strings.Contains(searchTerm, "-") {
+				numRange := strings.Split(searchTerm, "-")
 
-	serverSassComp()
+				start, _ := strconv.ParseInt(numRange[0], 0, 0)
+				start -= 1
 
-	parseTemp("main.html", nil).Execute(w, filteredDex)
+				end, _ := strconv.ParseInt(numRange[1], 0, 0)
+				end -= 1
+
+				c = (i >= int(start) && i <= int(end))
+			} else {
+				c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
+			}
+			return c
+		})
+
+		serverSassComp()
+
+		parseTemp("main.html", nil).Execute(w, filteredDex)
+	}
 
 }
 
 func pkmnSearchNotFound(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/", http.StatusNotFound)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func pkmnLoad(w http.ResponseWriter, r *http.Request) {
