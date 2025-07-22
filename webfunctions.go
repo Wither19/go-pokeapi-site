@@ -75,7 +75,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 }
 
 func pkmnSearchNotFound(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/", http.StatusFound)
+	http.Redirect(w, r, "/", http.StatusNotFound)
 }
 
 func pkmnLoad(w http.ResponseWriter, r *http.Request) {
