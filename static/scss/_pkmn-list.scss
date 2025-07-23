@@ -21,7 +21,7 @@
 }
 
 .pkmn-list {
-	@include flex-rules("space-between");
+	@include flex-rules("space-evenly");
 	margin: 12px auto;
 
 	& > div {

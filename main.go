@@ -5,7 +5,6 @@ import (
 )
 
 func main() {
-	serverSassComp()
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 

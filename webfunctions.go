@@ -14,18 +14,22 @@ import (
 	"github.com/samber/lo"
 )
 
-// Returns a parsed template of the filename provided by n. If f is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
-func parseTemp(n string, f template.FuncMap) *template.Template {
+// Returns a parsed template of the filename provided by filename. If funcs is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
+func parseTemp(filename string, funcs template.FuncMap, parseSass bool) *template.Template {
 	var t *template.Template
 
-	t = template.New(n)
+	t = template.New(filename)
 	t = t.Funcs(sprig.FuncMap())
 
-	if f != nil {
-		t = t.Funcs(f)
+	if funcs != nil {
+		t = t.Funcs(funcs)
 	}
 
-	return template.Must(t.ParseFiles(n))
+	if parseSass {
+		serverSassComp()
+	}
+
+	return template.Must(t.ParseFiles(filename))
 }
 
 // Transpiles the SASS at sassSource, to newCss. Requires Dart Sass to be installed, and in your $PATH
@@ -43,46 +47,61 @@ func serverSassComp() {
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 	d := getNatlDex().PokemonEntries
 
-	serverSassComp()
-
-	parseTemp("main.html", nil).Execute(w, d)
+	parseTemp("main.html", nil, true).Execute(w, d)
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 	d := getNatlDex().PokemonEntries
 	searchTerm := r.PathValue("search")
 
+	var filteredDex []struct {
+		EntryNumber    int "json:\"entry_number\""
+		PokemonSpecies struct {
+			Name string "json:\"name\""
+			URL  string "json:\"url\""
+		} "json:\"pokemon_species\""
+	}
+
+	// If the search matches a number exactly
 	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
 		http.Redirect(w, r, fmt.Sprintf("/pkmn/%v", searchTerm), http.StatusFound)
-	} else {
-		filteredDex := lo.Filter(d, func(item struct {
+
+		// If the search is a range, denoted by a dash between two numbers
+	} else if strings.Contains(searchTerm, "-") {
+		numRange := strings.Split(searchTerm, "-")
+
+		start, startParseErr := strconv.ParseInt(numRange[0], 0, 0)
+		if startParseErr != nil {
+			log.Fatalln("Failed to parse start number in search range")
+		}
+		end, endParseErr := strconv.ParseInt(numRange[1], 0, 0)
+		if endParseErr != nil {
+			log.Fatalln("Failed to parse end number in search range")
+		}
+
+		filteredDex = lo.Filter(d, func(item struct {
 			EntryNumber    int "json:\"entry_number\""
 			PokemonSpecies struct {
 				Name string "json:\"name\""
 				URL  string "json:\"url\""
 			} "json:\"pokemon_species\""
-		}, i int) bool {
-			var c bool
-			if strings.Contains(searchTerm, "-") {
-				numRange := strings.Split(searchTerm, "-")
-
-				start, _ := strconv.ParseInt(numRange[0], 0, 0)
-				start -= 1
-
-				end, _ := strconv.ParseInt(numRange[1], 0, 0)
-				end -= 1
-
-				c = (i >= int(start) && i <= int(end))
-			} else {
-				c = strings.Contains(fmt.Sprintf("%d", item.EntryNumber), searchTerm)
-			}
-			return c
+		}, _ int) bool {
+			return item.EntryNumber >= int(start) && item.EntryNumber <= int(end)
 		})
 
-		serverSassComp()
-
-		parseTemp("main.html", nil).Execute(w, filteredDex)
+	} else {
+		filteredDex = lo.Filter(d, func(item struct {
+			EntryNumber    int "json:\"entry_number\""
+			PokemonSpecies struct {
+				Name string "json:\"name\""
+				URL  string "json:\"url\""
+			} "json:\"pokemon_species\""
+		}, _ int) bool {
+			return strings.Contains(item.PokemonSpecies.Name, searchTerm)
+		})
 	}
+
+	parseTemp("main.html", nil, true).Execute(w, filteredDex)
 
 }
 
@@ -133,9 +152,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		FlavorTexts:  flavorTexts,
 	}
 
-	serverSassComp()
-
-	parseTemp("pkmn.html", nil).Execute(w, data)
+	parseTemp("pkmn.html", nil, true).Execute(w, data)
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
