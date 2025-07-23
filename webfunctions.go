@@ -45,75 +45,8 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
-	searchTerm := r.PathValue("search")
 
-	var filteredDex []struct {
-		EntryNumber    int "json:\"entry_number\""
-		PokemonSpecies struct {
-			Name string "json:\"name\""
-			URL  string "json:\"url\""
-		} "json:\"pokemon_species\""
-	}
-
-	// If the search matches a number exactly
-	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
-		http.Redirect(w, r, fmt.Sprintf("/pkmn/%v", searchTerm), http.StatusFound)
-
-		// If the search is a range, denoted by a dash between two numbers
-	} else if strings.Contains(searchTerm, "-") {
-		numRange := strings.Split(searchTerm, "-")
-
-		start, startParseErr := strconv.ParseInt(numRange[0], 0, 0)
-		if startParseErr != nil {
-			log.Fatalln("Failed to parse start number in search range")
-		}
-		end, endParseErr := strconv.ParseInt(numRange[1], 0, 0)
-		if endParseErr != nil {
-			log.Fatalln("Failed to parse end number in search range")
-		}
-
-		filteredDex = lo.Filter(natlDexEntries, func(item struct {
-			EntryNumber    int "json:\"entry_number\""
-			PokemonSpecies struct {
-				Name string "json:\"name\""
-				URL  string "json:\"url\""
-			} "json:\"pokemon_species\""
-		}, _ int) bool {
-			return item.EntryNumber >= int(start) && item.EntryNumber <= int(end)
-		})
-
-	} else if slices.Contains(regionKeywords, strings.ToLower(searchTerm)) {
-		searchTerm = strings.ToLower(searchTerm)
-		filteredDex = lo.Filter(natlDexEntries, func(item struct {
-			EntryNumber    int "json:\"entry_number\""
-			PokemonSpecies struct {
-				Name string "json:\"name\""
-				URL  string "json:\"url\""
-			} "json:\"pokemon_species\""
-		}, _ int) bool {
-			regionConditional := false
-			startValue := regionStarts[slices.Index(regionKeywords, searchTerm)]
-			if searchTerm == "paldea" {
-				regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= 1025
-			} else {
-				endValue := regionStarts[slices.Index(regionKeywords, searchTerm)+1]
-				regionConditional = item.EntryNumber >= startValue && item.EntryNumber < endValue
-			}
-
-			return regionConditional
-		})
-
-	} else {
-		filteredDex = lo.Filter(natlDexEntries, func(item struct {
-			EntryNumber    int "json:\"entry_number\""
-			PokemonSpecies struct {
-				Name string "json:\"name\""
-				URL  string "json:\"url\""
-			} "json:\"pokemon_species\""
-		}, _ int) bool {
-			return strings.Contains(strings.ToLower(item.PokemonSpecies.Name), searchTerm)
-		})
-	}
+	filteredDex := pkmnSearchHandle(w, r, r.PathValue("search"))
 
 	parseTemp("main.html", nil, true).Execute(w, filteredDex)
 

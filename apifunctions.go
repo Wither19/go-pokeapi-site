@@ -15,20 +15,20 @@ func getAPILink(cat string, id string) string {
 }
 
 // Reads and unmarshals the json for the National Pokedex.
-func getNatlDex() structs.Pokedex {
+func getNatlDex() []NatlDexEntry {
 	dex, err := os.ReadFile(getAPILink("pokedex", "1"))
 	if err != nil {
 		log.Fatalln("Dex fetch error:", err)
 	}
 
-	var pokedex structs.Pokedex
+	var pokedex Pokedex
 
 	dexUnpackErr := json.Unmarshal(dex, &pokedex)
 	if dexUnpackErr != nil {
 		log.Fatalln("Dex unpack error:", err)
 	}
 
-	return pokedex
+	return pokedex.PokemonEntries
 }
 
 // Reads and unmarshals the json for a Pokemon's general API entry, as specified by [id]
