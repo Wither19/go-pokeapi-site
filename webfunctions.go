@@ -91,6 +91,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		PaddedID:     paddedID,
 		EnglishGenus: engGenus.Genus,
 		FlavorTexts:  flavorTexts,
+		Config:       loadServerYAML(),
 	}
 
 	parseTemp("pkmn.html", nil, true).Execute(w, data)

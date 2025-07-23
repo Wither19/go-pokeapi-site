@@ -58,4 +58,9 @@ type PkmnData struct {
 	PaddedID     string
 	EnglishGenus string
 	FlavorTexts  []FlavorText
+	Config       ServerConfig
+}
+
+type ServerConfig struct {
+	PokemonArtwork string `yaml:"pokemon-artwork"`
 }
