@@ -11,15 +11,17 @@ import (
 	"github.com/samber/lo"
 )
 
+// Redirects to the Pokemon's page if it's an exact number
 func searchExactNumber(w http.ResponseWriter, r *http.Request, searchTerm string) {
 	http.Redirect(w, r, fmt.Sprintf("/pkmn/%v", searchTerm), http.StatusFound)
 }
 
+// Redirects based on Pokemon's name
 func searchExactName(w http.ResponseWriter, r *http.Request, searchTerm string) {
-	searchedPkmnNumber := slices.Index(pkmnNames, searchTerm) + 1
-	http.Redirect(w, r, fmt.Sprintf("/pkmn/%d", searchedPkmnNumber), http.StatusFound)
+	http.Redirect(w, r, fmt.Sprintf("/pkmn/%d", slices.Index(pkmnNames, searchTerm)+1), http.StatusFound)
 }
 
+// Pulls up list of Pokemon in a range, delimited by a dash
 func searchRange(searchTerm string) []NatlDexEntry {
 	numRange := strings.Split(searchTerm, "-")
 
@@ -39,6 +41,7 @@ func searchRange(searchTerm string) []NatlDexEntry {
 	return d
 }
 
+// Pulls up list of Pokemon in a region
 func searchRegion(searchTerm string) []NatlDexEntry {
 	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
 		regionConditional := false
@@ -56,6 +59,7 @@ func searchRegion(searchTerm string) []NatlDexEntry {
 	return d
 }
 
+// Generic substring search
 func searchSubstring(searchTerm string) []NatlDexEntry {
 	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
 		return strings.Contains(strings.ToLower(item.PokemonSpecies.Name), searchTerm)
@@ -68,26 +72,18 @@ func pkmnSearchHandle(w http.ResponseWriter, r *http.Request, searchTerm string)
 	searchTerm = strings.ToLower(searchTerm)
 	var d []NatlDexEntry
 
-	// 1. Exact Number
-	// 2. Exact Name
-	// 3. Range between two Dex #s, delimited by a dash
-	// 4. Filter by region
-	// 5. Regular Substring Match
 	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
 		searchExactNumber(w, r, searchTerm)
-
 	} else if slices.Contains(pkmnNames, searchTerm) {
 		searchExactName(w, r, searchTerm)
-
 	} else if strings.Contains(searchTerm, "-") {
 		d = searchRange(searchTerm)
-
 	} else if slices.Contains(regionKeywords, searchTerm) {
 		d = searchRegion(searchTerm)
-
+	} else if searchTerm == "random" {
+		searchExactNumber(w, r, fmt.Sprint(randomNumber(1, 1026)))
 	} else {
 		d = searchSubstring(searchTerm)
-
 	}
 
 	return d
