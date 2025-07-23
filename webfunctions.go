@@ -107,7 +107,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 				regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= 1025
 			} else {
 				endValue := regionStarts[slices.Index(regionKeywords, searchTerm)+1]
-				regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= endValue
+				regionConditional = item.EntryNumber >= startValue && item.EntryNumber < endValue
 			}
 
 			return regionConditional
