@@ -87,6 +87,7 @@ func pkmnSearchHandle(w http.ResponseWriter, r *http.Request, searchTerm string)
 
 	} else {
 		d = searchSubstring(searchTerm)
+
 	}
 
 	return d
