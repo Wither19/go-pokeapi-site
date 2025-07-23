@@ -32,12 +32,8 @@ func parseTemp(filename string, funcs template.FuncMap, parseSass bool) *templat
 	return template.Must(t.ParseFiles(filename))
 }
 
-// Transpiles the SASS at sassSource, to newCss. Requires Dart Sass to be installed, and in your $PATH
 func serverSassComp() {
-	sassSource := "./static/scss/App.scss"
-	newCss := "./static/css/style.css"
-
-	sassBuild := exec.Command("sass", sassSource, newCss)
+	sassBuild := exec.Command("sass", "./static/scss/App.scss", "./static/css/style.css")
 
 	if err := sassBuild.Run(); err != nil {
 		log.Fatalln("Sass build error:", err)
@@ -45,13 +41,10 @@ func serverSassComp() {
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
-	d := getNatlDex().PokemonEntries
-
-	parseTemp("main.html", nil, true).Execute(w, d)
+	parseTemp("main.html", nil, true).Execute(w, natlDexEntries)
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
-	d := getNatlDex().PokemonEntries
 	searchTerm := r.PathValue("search")
 
 	var filteredDex []struct {
@@ -61,9 +54,6 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 			URL  string "json:\"url\""
 		} "json:\"pokemon_species\""
 	}
-
-	regionKeywords := []string{"kanto", "johto", "hoenn", "sinnoh", "unova", "kalos", "alola", "unknown", "galar", "hisui", "paldea"}
-	regionStarts := []int{1, 152, 252, 387, 494, 650, 722, 808, 810, 899, 906}
 
 	// If the search matches a number exactly
 	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
@@ -82,7 +72,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 			log.Fatalln("Failed to parse end number in search range")
 		}
 
-		filteredDex = lo.Filter(d, func(item struct {
+		filteredDex = lo.Filter(natlDexEntries, func(item struct {
 			EntryNumber    int "json:\"entry_number\""
 			PokemonSpecies struct {
 				Name string "json:\"name\""
@@ -94,7 +84,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 
 	} else if slices.Contains(regionKeywords, strings.ToLower(searchTerm)) {
 		searchTerm = strings.ToLower(searchTerm)
-		filteredDex = lo.Filter(d, func(item struct {
+		filteredDex = lo.Filter(natlDexEntries, func(item struct {
 			EntryNumber    int "json:\"entry_number\""
 			PokemonSpecies struct {
 				Name string "json:\"name\""
@@ -114,7 +104,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 		})
 
 	} else {
-		filteredDex = lo.Filter(d, func(item struct {
+		filteredDex = lo.Filter(natlDexEntries, func(item struct {
 			EntryNumber    int "json:\"entry_number\""
 			PokemonSpecies struct {
 				Name string "json:\"name\""
@@ -151,12 +141,6 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var flavorTexts []FlavorText
-
-	omissions := []string{
-		"red", "blue", "yellow", "gold", "silver", "crystal",
-		"ruby", "sapphire", "emerald", "firered", "leafgreen",
-		"diamond", "pearl", "platinum", "heartgold", "soulsilver", "black", "white", "black-2", "white-2",
-	}
 
 	for _, flavorText := range species.FlavorTextEntries {
 		// Only include english flavor texts, whose versions are not in 'omissions'
