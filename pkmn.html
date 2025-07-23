@@ -42,10 +42,11 @@
 				<div class="dex-entries">
 				{{ range $i, $flavor := .FlavorTexts }}
 					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug mx-2">
-
-					<p class="mx-4">{{$flavor.FlavorText}}</p>
-					<sub class="text-base">Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
-
+						<p class="mx-4">{{$flavor.FlavorText}}</p>
+						<div class="flex flex-wrap justify-center my-2">
+							<img class="m-1" width="48px" src="/static/icons/game-icons/{{$flavor.Version.Name}}.png" />
+							<sub class="text-base">Pokémon {{$flavor.Version.Name | title | replace "-" " " }}</sub>
+						</div>
 					</div>
 				{{ end }}
 				</div>
@@ -56,11 +57,11 @@
 		</div>
 			<div>
 				{{ if ne .Pokemon.ID 1 }}
-				<a href="/pkmn/{{ .Pokemon.ID }}/prev"><button>&lt;</button></a>
+				<a class="text-white bg-violet-400 hover:bg-violet-500 mx-auto my-4 px-3 py-1 rounded" href="/pkmn/{{ .Pokemon.ID }}/prev">&lt;</a>
 				{{ end }}
-				<a href="/random"><button>Surprise Me!</button></a>
+				<a class="text-white bg-violet-400 hover:bg-violet-500 mx-auto my-4 px-3 py-1 rounded" href="/random">Surprise Me!</a>
 				{{ if ne .Pokemon.ID 1025 }}
-				<a href="/pkmn/{{ .Pokemon.ID }}/next"><button>&gt;</button></a>	
+				<a class="text-white bg-violet-400 hover:bg-violet-500 mx-auto my-4 px-3 py-1 rounded" href="/pkmn/{{ .Pokemon.ID }}/next">&gt;</a>	
 				{{ end }}			
 			</div>
 			<div>
