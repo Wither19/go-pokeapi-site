@@ -62,6 +62,9 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 		} "json:\"pokemon_species\""
 	}
 
+	regionKeywords := []string{"kanto", "johto", "hoenn", "sinnoh", "unova", "kalos", "alola", "unknown", "galar", "hisui", "paldea"}
+	regionStarts := []int{1, 152, 252, 387, 494, 650, 722, 808, 810, 899, 906}
+
 	// If the search matches a number exactly
 	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
 		http.Redirect(w, r, fmt.Sprintf("/pkmn/%v", searchTerm), http.StatusFound)
@@ -89,6 +92,27 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 			return item.EntryNumber >= int(start) && item.EntryNumber <= int(end)
 		})
 
+	} else if slices.Contains(regionKeywords, strings.ToLower(searchTerm)) {
+		searchTerm = strings.ToLower(searchTerm)
+		filteredDex = lo.Filter(d, func(item struct {
+			EntryNumber    int "json:\"entry_number\""
+			PokemonSpecies struct {
+				Name string "json:\"name\""
+				URL  string "json:\"url\""
+			} "json:\"pokemon_species\""
+		}, _ int) bool {
+			regionConditional := false
+			startValue := regionStarts[slices.Index(regionKeywords, searchTerm)]
+			if searchTerm == "paldea" {
+				regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= 1025
+			} else {
+				endValue := regionStarts[slices.Index(regionKeywords, searchTerm)+1]
+				regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= endValue
+			}
+
+			return regionConditional
+		})
+
 	} else {
 		filteredDex = lo.Filter(d, func(item struct {
 			EntryNumber    int "json:\"entry_number\""
@@ -97,7 +121,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 				URL  string "json:\"url\""
 			} "json:\"pokemon_species\""
 		}, _ int) bool {
-			return strings.Contains(item.PokemonSpecies.Name, searchTerm)
+			return strings.Contains(strings.ToLower(item.PokemonSpecies.Name), searchTerm)
 		})
 	}
 
