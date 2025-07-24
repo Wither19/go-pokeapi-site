@@ -43,7 +43,7 @@
 		<div>
 				<div class="dex-entries">
 				{{ range $i, $flavor := .FlavorTexts }}
-					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug mx-2">
+					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug mx-2 min-height-64px">
 						<p class="mx-4">{{$flavor.FlavorText}}</p>
 						<div class="flex flex-wrap justify-center my-2">
 							<img class="drop-shadow-md m-1" width="48px" src="/static/icons/game-icons/{{$flavor.Version.Name}}.png" />
