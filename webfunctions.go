@@ -54,14 +54,14 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 	} else if slices.Contains(pkmnNames, searchTerm) {
 		searchExactName(w, r, searchTerm)
 
+	} else if searchTerm == "random" {
+		searchExactNumber(w, r, fmt.Sprint(randomNumber(1, 1026)))
+
 	} else if strings.Contains(searchTerm, "-") {
 		filteredDex = searchRange(searchTerm)
 
 	} else if slices.Contains(regionKeywords, searchTerm) {
 		filteredDex = searchRegion(searchTerm)
-
-	} else if searchTerm == "random" {
-		searchExactNumber(w, r, fmt.Sprint(randomNumber(1, 1026)))
 
 	} else {
 		filteredDex = searchSubstring(searchTerm)
