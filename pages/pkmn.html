@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="/static/css/style.css" />
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-		<link rel="icon" href="/static/icons/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ (index .Pokemon.Types 0).Type.Name }}.svg" type="image/x-icon">
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -27,12 +27,12 @@
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/{{.Config.PokemonArtwork}}/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="regular-art"
-					class="artwork regular w-15vh drop-shadow-lg" />
+					class="artwork regular w-50 drop-shadow-lg" />
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/{{.Config.PokemonArtwork}}/shiny/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="shiny-art"
-					class="artwork shiny hidden w-15vh drop-shadow-lg" />
+					class="artwork shiny hidden w-50 drop-shadow-lg" />
 			</div>
 
 			<div class="flex flex-wrap justify-center my-4 mx-2">
