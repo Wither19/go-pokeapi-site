@@ -67,24 +67,3 @@ func searchSubstring(searchTerm string) []NatlDexEntry {
 
 	return d
 }
-
-func pkmnSearchHandle(w http.ResponseWriter, r *http.Request, searchTerm string) []NatlDexEntry {
-	searchTerm = strings.ToLower(searchTerm)
-	var d []NatlDexEntry
-
-	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
-		searchExactNumber(w, r, searchTerm)
-	} else if slices.Contains(pkmnNames, searchTerm) {
-		searchExactName(w, r, searchTerm)
-	} else if strings.Contains(searchTerm, "-") {
-		d = searchRange(searchTerm)
-	} else if slices.Contains(regionKeywords, searchTerm) {
-		d = searchRegion(searchTerm)
-	} else if searchTerm == "random" {
-		searchExactNumber(w, r, fmt.Sprint(randomNumber(1, 1026)))
-	} else {
-		d = searchSubstring(searchTerm)
-	}
-
-	return d
-}

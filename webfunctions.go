@@ -45,8 +45,28 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
+	searchTerm := strings.ToLower(r.PathValue("search"))
+	var filteredDex []NatlDexEntry
 
-	filteredDex := pkmnSearchHandle(w, r, r.PathValue("search"))
+	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
+		searchExactNumber(w, r, searchTerm)
+
+	} else if slices.Contains(pkmnNames, searchTerm) {
+		searchExactName(w, r, searchTerm)
+
+	} else if strings.Contains(searchTerm, "-") {
+		filteredDex = searchRange(searchTerm)
+
+	} else if slices.Contains(regionKeywords, searchTerm) {
+		filteredDex = searchRegion(searchTerm)
+
+	} else if searchTerm == "random" {
+		searchExactNumber(w, r, fmt.Sprint(randomNumber(1, 1026)))
+
+	} else {
+		filteredDex = searchSubstring(searchTerm)
+
+	}
 
 	parseTemp("main.html", "pages/main.html", nil, true).Execute(w, filteredDex)
 
