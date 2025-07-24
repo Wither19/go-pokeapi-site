@@ -118,8 +118,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
-	currentPkmn, _ := strconv.ParseInt(strings.ReplaceAll(r.PathValue("id"), "/prev", ""), 0, 0)
-	currentPkmn -= 1
+	currentPkmn := parseInt(strings.ReplaceAll(r.PathValue("id"), "/prev", "")) - 1
 
 	prevPkmnUrl := fmt.Sprintf("/pkmn/%d", currentPkmn)
 
@@ -127,8 +126,7 @@ func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
 }
 
 func nextPkmnLoad(w http.ResponseWriter, r *http.Request) {
-	currentPkmn, _ := strconv.ParseInt(strings.ReplaceAll(r.PathValue("id"), "/next", ""), 0, 0)
-	currentPkmn += 1
+	currentPkmn := parseInt(strings.ReplaceAll(r.PathValue("id"), "/next", "")) + 1
 
 	nextPkmnUrl := fmt.Sprintf("/pkmn/%d", currentPkmn)
 
