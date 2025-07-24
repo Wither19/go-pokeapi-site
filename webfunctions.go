@@ -14,11 +14,11 @@ import (
 	"github.com/samber/lo"
 )
 
-// Returns a parsed template of the filename provided by filename. If funcs is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
-func parseTemp(filename string, funcs template.FuncMap, parseSass bool) *template.Template {
+// Returns a parsed template of the file provided by filename. If funcs is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
+func parseTemp(tempName string, fileName string, funcs template.FuncMap, parseSass bool) *template.Template {
 	var t *template.Template
 
-	t = template.New(filename)
+	t = template.New(tempName)
 	t = t.Funcs(sprig.FuncMap())
 
 	if funcs != nil {
@@ -29,7 +29,7 @@ func parseTemp(filename string, funcs template.FuncMap, parseSass bool) *templat
 		serverSassComp()
 	}
 
-	return template.Must(t.ParseFiles(filename))
+	return template.Must(t.ParseFiles(fileName))
 }
 
 func serverSassComp() {
@@ -41,14 +41,14 @@ func serverSassComp() {
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
-	parseTemp("pages/main.html", nil, true).Execute(w, natlDexEntries)
+	parseTemp("main.html", "pages/main.html", nil, true).Execute(w, natlDexEntries)
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 
 	filteredDex := pkmnSearchHandle(w, r, r.PathValue("search"))
 
-	parseTemp("pages/main.html", nil, true).Execute(w, filteredDex)
+	parseTemp("main.html", "pages/main.html", nil, true).Execute(w, filteredDex)
 
 }
 
@@ -94,7 +94,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		Config:       loadServerYAML(),
 	}
 
-	parseTemp("pages/pkmn.html", nil, true).Execute(w, data)
+	parseTemp("pkmn.html", "pages/pkmn.html", nil, true).Execute(w, data)
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
