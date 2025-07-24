@@ -19,7 +19,7 @@ func searchExactNumber(w http.ResponseWriter, r *http.Request, searchTerm string
 // Redirects based on Pokemon's name
 func searchExactName(w http.ResponseWriter, r *http.Request, searchTerm string) {
 	namedPkmnIndex := slices.Index(pkmnNames, searchTerm) + 1
-	http.Redirect(w, r, fmt.Sprintf("/pkmn/%d", namedPkmnIndex, http.StatusFound))
+	http.Redirect(w, r, fmt.Sprintf("/pkmn/%d", namedPkmnIndex), http.StatusFound)
 }
 
 // Pulls up list of Pokemon in a range, delimited by a dash
