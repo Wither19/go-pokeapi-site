@@ -27,17 +27,19 @@
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/{{.Config.PokemonArtwork}}/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="regular-art"
-					class="artwork regular w-70 drop-shadow-lg" />
+					class="artwork regular w-15vh drop-shadow-lg" />
 				<img
 					src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/{{.Config.PokemonArtwork}}/shiny/{{.Pokemon.ID}}.png"
 					alt="{{.Pokemon.Name}}"
 					id="shiny-art"
-					class="artwork shiny hidden w-70 drop-shadow-lg" />
+					class="artwork shiny hidden w-15vh drop-shadow-lg" />
 			</div>
 
 			<div class="flex flex-wrap justify-center my-4 mx-2">
 				{{ range $type := .Pokemon.Types }}
-				<div class="icon {{ $type.Type.Name }}"><img src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ $type.Type.Name }}.svg" /></div>
+				<div class="icon {{ $type.Type.Name }}">
+					<img src="https://raw.githubusercontent.com/duiker101/pokemon-type-svg-icons/refs/heads/master/icons/{{ $type.Type.Name }}.svg" />
+				</div>
 				{{ end }}
 			</div>
 		<div>
@@ -55,7 +57,7 @@
 
 				<div class="flex flex-wrap justify-center my-4">
 					{{ range $i, $flavor := .FlavorTexts }}
-					<div class="mx-1" style="width: 64px; cursor: pointer;" onclick='setFlavor("{{$flavor.Version.Name}}");'>
+					<div class="mx-1" style="width: 48px; cursor: pointer;" onclick='setFlavor("{{$flavor.Version.Name}}");'>
 						<img class="drop-shadow-sm" src="/static/icons/game-icons/alt/{{$flavor.Version.Name}}.png" />
 					</div>
 					{{ end }}

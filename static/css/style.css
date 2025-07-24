@@ -122,8 +122,8 @@ sub {
 }
 
 .icon {
-  height: 100px;
-  width: 100px;
+  height: 4rem;
+  width: 4rem;
   border-radius: 100%;
   margin: 8px 32px;
   transition: 200ms all;

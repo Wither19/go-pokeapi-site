@@ -23,7 +23,7 @@
 }
 
 .icon {
-	@include uniform-size(100px);
+	@include uniform-size(4rem);
 	border-radius: 100%;
 	margin: 8px 32px;
 	transition: 200ms all;
