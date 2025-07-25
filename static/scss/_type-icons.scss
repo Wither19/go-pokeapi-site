@@ -23,9 +23,9 @@
 }
 
 .icon {
-	@include uniform-size(4.5rem);
+	@include uniform-size(3.5rem);
 	border-radius: 100%;
-	margin: 8px 32px;
+	margin: 4px 16px;
 	transition: 200ms all;
 
 	@each $name, $color in variables.$types {

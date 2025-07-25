@@ -122,10 +122,10 @@ sub {
 }
 
 .icon {
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 3.5rem;
+  width: 3.5rem;
   border-radius: 100%;
-  margin: 8px 32px;
+  margin: 4px 16px;
   transition: 200ms all;
 }
 .icon.bug {
