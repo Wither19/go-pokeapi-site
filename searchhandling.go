@@ -45,7 +45,7 @@ func searchRange(searchTerm string) []NatlDexEntry {
 // Pulls up list of Pokemon in a region
 func searchRegion(searchTerm string) []NatlDexEntry {
 	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
-		regionConditional := false
+		var regionConditional bool
 		startValue := regionStarts[slices.Index(regionKeywords, searchTerm)]
 		if searchTerm == "paldea" {
 			regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= 1025
