@@ -111,6 +111,13 @@ sub {
 .pkmn-list > div:hover .pkmn-entry:visited {
   color: whitesmoke;
 }
+.pkmn-list > span {
+  text-align: start;
+  color: lightblue;
+}
+.pkmn-list > span:hover {
+  color: whitesmoke;
+}
 .pkmn-list .pkmn-entry,
 .pkmn-list .pkmn-entry:visited {
   color: darkblue;

@@ -114,7 +114,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		Config:       loadServerYAML(),
 	}
 
-	parseTemp("pkmn.html", "pages/pkmn.html", nil, true).Execute(w, data)
+	parseTemp("pkmn.html", "pages/pkmn.html", map[string]any{"leadingZeroes": leadingZeroes}, true).Execute(w, data)
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {

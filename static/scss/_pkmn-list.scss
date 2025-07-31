@@ -24,7 +24,7 @@
 	@include flex-rules("space-evenly");
 	margin: 12px auto;
 
-	& > div {
+	&>div {
 		margin: 20px 8px;
 		text-align: center;
 		flex-basis: 20%;
@@ -54,6 +54,15 @@
 			.pkmn-entry:visited {
 				color: whitesmoke;
 			}
+		}
+	}
+
+	&>span {
+		text-align: start;
+		color: lightblue;
+
+		&:hover {
+			color: whitesmoke
 		}
 	}
 

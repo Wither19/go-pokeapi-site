@@ -15,10 +15,10 @@
 	</head>
 	<body>
 		<div>
-			<div class="mt-3">
+			<div class="mt-3 absolute">
 				<a class="bg-indigo-500 hover:bg-indigo-600 mx-3 mt-6 px-3 py-1 text-white rounded transition-colors duration-150ms" href="/">&lt; Back</a>
 			</div>
-			<div class="text-center text-xl">#{{.Pokemon.ID }}</div>
+			<div class="text-center text-xl">#{{ leadingZeroes .Pokemon.ID 4  }}</div>
 			<div class="text-center text-xl font-bold mb-2">{{.EnglishGenus}}</div>
 			<h1 class="text-center text-3xl font-bold capitalize">{{.Pokemon.Name | replace "-" " "}}</h1>
 
@@ -46,7 +46,7 @@
 				<div class="dex-entries">
 				{{ range $i, $flavor := .FlavorTexts }}
 					<div id="{{$flavor.Version.Name}}" class="{{ if ne $i 0 }} hidden {{ end }} text-center leading-snug mx-2">
-						<p class="mx-4 min-h-15">{{$flavor.FlavorText}}</p>
+						<p class="mx-4 min-h-10">{{$flavor.FlavorText}}</p>
 						<div class="flex flex-wrap justify-center my-2">
 							<img class="drop-shadow-md m-1" width="48px" src="/static/icons/game-icons/{{$flavor.Version.Name}}.png" />
 						</div>
@@ -63,7 +63,7 @@
 					{{ end }}
 				</div>
 		</div>
-			<div class="text-center">
+			<div class="text-center mb-5">
 				{{ if ne .Pokemon.ID 1 }}
 				<a class="text-white bg-indigo-500 hover:bg-indigo-600 mx-auto my-4 px-3 py-1 rounded" href="/pkmn/{{ .Pokemon.ID }}/prev">&lt;</a>
 				{{ end }}
