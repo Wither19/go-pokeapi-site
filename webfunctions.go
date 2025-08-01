@@ -41,7 +41,7 @@ func serverSassComp() {
 }
 
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
-	parseTemp("main.html", "pages/main.html", nil, true).Execute(w, natlDexEntries)
+	parseTemp("main.html", "static/pages/main.html", nil, true).Execute(w, natlDexEntries)
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
@@ -68,7 +68,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	parseTemp("main.html", "pages/main.html", nil, true).Execute(w, filteredDex)
+	parseTemp("main.html", "static/pages/main.html", nil, true).Execute(w, filteredDex)
 
 }
 
@@ -114,7 +114,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		Config:       loadServerYAML(),
 	}
 
-	parseTemp("pkmn.html", "pages/pkmn.html", map[string]any{"leadingZeroes": leadingZeroes}, true).Execute(w, data)
+	parseTemp("pkmn.html", "static/pages/pkmn.html", map[string]any{"leadingZeroes": leadingZeroes}, true).Execute(w, data)
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {
