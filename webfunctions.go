@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
-	"os/exec"
 	"slices"
 	"strconv"
 	"strings"
@@ -15,7 +13,7 @@ import (
 )
 
 // Returns a parsed template of the file provided by filename. If funcs is provided it gets added as a FuncMap to the template. Sprig's functions are loaded regardless.
-func parseTemp(tempName string, fileName string, funcs template.FuncMap, parseSass bool) *template.Template {
+func parseTemp(tempName string, fileName string, funcs template.FuncMap) *template.Template {
 	var t *template.Template
 
 	t = template.New(tempName)
@@ -25,23 +23,11 @@ func parseTemp(tempName string, fileName string, funcs template.FuncMap, parseSa
 		t = t.Funcs(funcs)
 	}
 
-	if parseSass {
-		serverSassComp()
-	}
-
 	return template.Must(t.ParseFiles(fileName))
 }
 
-func serverSassComp() {
-	sassBuild := exec.Command("sass", "./static/scss/App.scss", "./static/css/style.css")
-
-	if err := sassBuild.Run(); err != nil {
-		log.Fatalln("Sass build error:", err)
-	}
-}
-
 func mainPageHandle(w http.ResponseWriter, r *http.Request) {
-	parseTemp("main.html", "static/pages/main.html", nil, true).Execute(w, natlDexEntries)
+	parseTemp("main.html", "static/pages/main.html", nil).Execute(w, natlDexEntries)
 }
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
@@ -68,7 +54,7 @@ func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	parseTemp("main.html", "static/pages/main.html", nil, true).Execute(w, filteredDex)
+	parseTemp("main.html", "static/pages/main.html", nil).Execute(w, filteredDex)
 
 }
 
@@ -114,7 +100,7 @@ func pkmnLoad(w http.ResponseWriter, r *http.Request) {
 		Config:       loadServerYAML(),
 	}
 
-	parseTemp("pkmn.html", "static/pages/pkmn.html", map[string]any{"leadingZeroes": leadingZeroes}, true).Execute(w, data)
+	parseTemp("pkmn.html", "static/pages/pkmn.html", map[string]any{"leadingZeroes": leadingZeroes}).Execute(w, data)
 }
 
 func prevPkmnLoad(w http.ResponseWriter, r *http.Request) {

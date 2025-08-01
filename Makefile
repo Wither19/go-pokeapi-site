@@ -16,3 +16,4 @@ dev: sass_build
 	go run .
 
 preview: build
+	./jv-pokeapi

@@ -1,12 +1,22 @@
 package main
 
 import (
+	"embed"
+	"io/fs"
+	"log"
 	"net/http"
 )
 
-func main() {
+//go:embed static/*
+var staticWebFiles embed.FS
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+func main() {
+	staticContent, err := fs.Sub(staticWebFiles, "static")
+	if err != nil {
+		log.Fatalln("Could not embed static files:", err)
+	}
+
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticContent))))
 
 	http.HandleFunc("/", mainPageHandle)
 	http.HandleFunc("/search/{search}", mainPagePkmnSearch)
