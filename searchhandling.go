@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/samber/lo"
@@ -18,8 +16,8 @@ func searchExactNumber(w http.ResponseWriter, r *http.Request, searchTerm string
 
 // Redirects based on Pokemon's name
 func searchExactName(w http.ResponseWriter, r *http.Request, searchTerm string) {
-	namedPkmnIndex := slices.Index(pkmnNames, searchTerm)
-	namedPkmnIndex += 1
+	namedPkmnIndex := slices.Index(pkmnNames, searchTerm) + 1
+
 	http.Redirect(w, r, fmt.Sprintf("/pkmn/%d", namedPkmnIndex), http.StatusFound)
 }
 
@@ -27,17 +25,11 @@ func searchExactName(w http.ResponseWriter, r *http.Request, searchTerm string) 
 func searchRange(searchTerm string) []NatlDexEntry {
 	numRange := strings.Split(searchTerm, "-")
 
-	start, startParseErr := strconv.ParseInt(numRange[0], 0, 0)
-	if startParseErr != nil {
-		log.Fatalln("Failed to parse start number in search range")
-	}
-	end, endParseErr := strconv.ParseInt(numRange[1], 0, 0)
-	if endParseErr != nil {
-		log.Fatalln("Failed to parse end number in search range")
-	}
+	start := parseInt(numRange[0])
+	end := parseInt(numRange[1])
 
 	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
-		return item.EntryNumber >= int(start) && item.EntryNumber <= int(end)
+		return item.EntryNumber >= start && item.EntryNumber <= end
 	})
 
 	return d
@@ -47,13 +39,12 @@ func searchRange(searchTerm string) []NatlDexEntry {
 func searchRegion(searchTerm string) []NatlDexEntry {
 	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
 		var regionConditional bool
-		startValue := regionStarts[slices.Index(regionKeywords, searchTerm)]
-		if searchTerm == "paldea" {
-			regionConditional = item.EntryNumber >= startValue && item.EntryNumber <= 1025
-		} else {
-			endValue := regionStarts[slices.Index(regionKeywords, searchTerm)+1]
-			regionConditional = item.EntryNumber >= startValue && item.EntryNumber < endValue
-		}
+		searchIndex := slices.Index(regionKeywords, searchTerm)
+
+		startValue := regionStarts[searchIndex]
+		endValue := regionStarts[searchIndex+1]
+
+		regionConditional = item.EntryNumber >= startValue && item.EntryNumber < endValue
 
 		return regionConditional
 	})
