@@ -57,7 +57,7 @@
 
 				<div class="flex flex-wrap justify-center my-4">
 					{{ range $i, $flavor := .FlavorTexts }}
-					<div class="mx-1 flex flex-wrap justify-center" style="width: 36px; cursor: pointer;" onclick='setFlavor("{{$flavor.Version.Name}}");'>
+					<div class="mx-1 w-[36px] max-w-[36px] shrink-0 cursor-pointer" onclick='setFlavor("{{$flavor.Version.Name}}");'>
 						<img class="drop-shadow-sm" src="/static/icons/game-icons/alt/{{$flavor.Version.Name}}.png" />
 					</div>
 					{{ end }}
