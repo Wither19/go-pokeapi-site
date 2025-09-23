@@ -20,12 +20,12 @@ type Pokedex struct {
 		} `json:"language"`
 		Name string `json:"name"`
 	} `json:"names"`
-	PokemonEntries []NatlDexEntry `json:"pokemon_entries"`
+	PokemonEntries []NationalDexEntry `json:"pokemon_entries"`
 	Region         interface{}    `json:"region"`
 	VersionGroups  []interface{}  `json:"version_groups"`
 }
 
-type NatlDexEntry struct {
+type NationalDexEntry struct {
 	EntryNumber    int `json:"entry_number"`
 	PokemonSpecies struct {
 		Name string `json:"name"`

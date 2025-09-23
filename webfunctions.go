@@ -32,7 +32,7 @@ func mainPageHandle(w http.ResponseWriter, r *http.Request) {
 
 func mainPagePkmnSearch(w http.ResponseWriter, r *http.Request) {
 	searchTerm := strings.ToLower(r.PathValue("search"))
-	var filteredDex []NatlDexEntry
+	var filteredDex []NationalDexEntry
 
 	if _, err := strconv.ParseInt(searchTerm, 0, 0); err == nil {
 		searchExactNumber(w, r, searchTerm)

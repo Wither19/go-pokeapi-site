@@ -22,13 +22,13 @@ func searchExactName(w http.ResponseWriter, r *http.Request, searchTerm string) 
 }
 
 // Pulls up list of Pokemon in a range, delimited by a dash
-func searchRange(searchTerm string) []NatlDexEntry {
+func searchRange(searchTerm string) []NationalDexEntry {
 	numRange := strings.Split(searchTerm, "-")
 
 	start := parseInt(numRange[0])
 	end := parseInt(numRange[1])
 
-	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
+	d := lo.Filter(natlDexEntries, func(item NationalDexEntry, _ int) bool {
 		return item.EntryNumber >= start && item.EntryNumber <= end
 	})
 
@@ -36,8 +36,8 @@ func searchRange(searchTerm string) []NatlDexEntry {
 }
 
 // Pulls up list of Pokemon in a region
-func searchRegion(searchTerm string) []NatlDexEntry {
-	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
+func searchRegion(searchTerm string) []NationalDexEntry {
+	d := lo.Filter(natlDexEntries, func(item NationalDexEntry, _ int) bool {
 		var regionConditional bool
 		searchIndex := slices.Index(regionKeywords, searchTerm)
 
@@ -53,8 +53,8 @@ func searchRegion(searchTerm string) []NatlDexEntry {
 }
 
 // Generic substring search
-func searchSubstring(searchTerm string) []NatlDexEntry {
-	d := lo.Filter(natlDexEntries, func(item NatlDexEntry, _ int) bool {
+func searchSubstring(searchTerm string) []NationalDexEntry {
+	d := lo.Filter(natlDexEntries, func(item NationalDexEntry, _ int) bool {
 		return strings.Contains(strings.ToLower(item.PokemonSpecies.Name), searchTerm)
 	})
 

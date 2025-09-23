@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/mtslzr/pokeapi-go"
 	"github.com/mtslzr/pokeapi-go/structs"
 )
 
@@ -15,7 +16,7 @@ func getAPILink(cat string, id string) string {
 }
 
 // Reads and unmarshals the json for the National Pokedex.
-func getNatlDex() []NatlDexEntry {
+func getNatlDex() []NationalDexEntry {
 	dex, err := os.ReadFile(getAPILink("pokedex", "1"))
 	if err != nil {
 		log.Fatalln("Dex fetch error:", err)
