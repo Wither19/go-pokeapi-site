@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/mtslzr/pokeapi-go"
+	// "github.com/mtslzr/pokeapi-go"
 	"github.com/mtslzr/pokeapi-go/structs"
 )
 

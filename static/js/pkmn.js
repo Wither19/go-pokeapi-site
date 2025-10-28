@@ -16,3 +16,11 @@ function setFlavor(game) {
 	nonGameElems.forEach((elem) => elem.classList.add("hidden"));
 	gameElem.classList.remove("hidden");
 }
+
+document.querySelector("body").addEventListener("keydown", generalKeyFuncs);
+
+function generalKeyFuncs(e) {
+	if (e.key == "r") {
+			pkmnSearch("random");
+	}
+}
