@@ -121,7 +121,7 @@ func nextPkmnLoad(w http.ResponseWriter, r *http.Request) {
 
 func pkmnRandomize(w http.ResponseWriter, r *http.Request) {
 	randomID := randomNumber(1, 1026)
-	randPkmnUrl := fmt.Sprintf("/pkmn/%v", randomID)
+	randPkmnUrl := fmt.Sprintf("/search/%v", randomID)
 
 	http.Redirect(w, r, randPkmnUrl, http.StatusFound)
 }

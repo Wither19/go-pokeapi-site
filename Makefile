@@ -1,18 +1,16 @@
-.PHONY: sass_build build dev preview
+.PHONY: frontend_build build dev preview
 
-sass_dir := scss/App.scss
+sass_dir := frontend/scss/App.scss
 compiled_css_dir := static/css/style.css
 
-sass_build:
-	@echo "Building SASS in $(sass_dir)"
-
+frontend_build:
+	tsc
 	sass $(sass_dir) $(compiled_css_dir)
 
-build: sass_build
-	@echo "Building Go source"
+build: frontend_build
 	go build
 
-dev: sass_build
+dev: frontend_build
 	go run .
 
 preview: build
