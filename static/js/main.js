@@ -16,4 +16,3 @@ document.getElementById("pkmn-search-bar").addEventListener("keydown", (e) => {
         pkmnSearch();
     }
 });
-//# sourceMappingURL=main.js.map

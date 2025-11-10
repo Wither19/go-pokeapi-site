@@ -23,4 +23,3 @@ const generalKeyFuncs = (e) => {
         (0, main_1.pkmnSearch)("random");
     }
 };
-//# sourceMappingURL=pkmn.js.map
