@@ -5,7 +5,7 @@ compiled_css_dir := static/css/style.css
 
 frontend_build:
 	tsc
-	sass $(sass_dir) $(compiled_css_dir)
+	sass $(sass_dir) $(compiled_css_dir) --no-source-map
 
 build: frontend_build
 	go build
