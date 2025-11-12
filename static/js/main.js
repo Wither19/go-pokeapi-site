@@ -1,17 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pkmnSearch = pkmnSearch;
-function pkmnSearch(searchTerm = "") {
-    if (!searchTerm) {
-        const searchBar = document.getElementById("pkmn-search-bar");
-        searchTerm = searchBar.value;
-    }
+const searchBar = document.querySelector("#pkmn-search-bar");
+const searchBtn = document.querySelector("#pkmn-search-btn");
+function pkmnSearch(searchTerm = searchBar.value) {
     window.location.href = `/search/${searchTerm}`;
 }
-document.getElementById("pkmn-search-btn").addEventListener("click", () => {
+searchBtn.addEventListener("click", () => {
     pkmnSearch();
 });
-document.getElementById("pkmn-search-bar").addEventListener("keydown", (e) => {
+searchBar.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
         pkmnSearch();
     }
