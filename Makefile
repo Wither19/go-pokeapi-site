@@ -5,6 +5,7 @@ compiled_css_dir := static/css/style.css
 
 frontend_build:
 	tsc
+	sed -i '2d' static/js/*
 	sass $(sass_dir) $(compiled_css_dir) --no-source-map
 
 build: frontend_build

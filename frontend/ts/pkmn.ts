@@ -19,8 +19,12 @@ const setFlavor = (game: string) => {
 	const nonGameElems = document.querySelectorAll(`.dex-entries > div:not(#${game})`)!
 	const gameElem = document.querySelector(`div#${game}`)!
 
-	nonGameElems.forEach((elem) => elem.classList.add("hidden"))
+	nonGameElems.forEach((elem) => {
+		elem.classList.add("hidden")
+		elem.classList.remove("hl")
+	})
 	gameElem.classList.remove("hidden")
+	gameElem.classList.add("hl")
 }
 
 const generalKeyFuncs = (e: KeyboardEvent) => {

@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const body = document.querySelector("body");
 const searchBar = document.querySelector("#pkmn-search-bar");
 const searchBtn = document.querySelector("#pkmn-search-btn");
@@ -15,8 +14,12 @@ const togglePkmnArt = () => {
 const setFlavor = (game) => {
     const nonGameElems = document.querySelectorAll(`.dex-entries > div:not(#${game})`);
     const gameElem = document.querySelector(`div#${game}`);
-    nonGameElems.forEach((elem) => elem.classList.add("hidden"));
+    nonGameElems.forEach((elem) => {
+        elem.classList.add("hidden");
+        elem.classList.remove("hl");
+    });
     gameElem.classList.remove("hidden");
+    gameElem.classList.add("hl");
 };
 const generalKeyFuncs = (e) => {
     if (e.key == "r") {
