@@ -37,6 +37,7 @@ func getNatlDex() []NationalDexEntry {
 	}
 
 	var e []NationalDexEntry
+	e = lo.Map(d.PokemonEntries, func(item, index int))
 
 	return e
 }
