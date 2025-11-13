@@ -1,5 +1,7 @@
 import { pkmnSearch } from "./main";
 
+const body = document.querySelector("body")!;
+
 const regArt = document.querySelector("#regular-art")!;
 const shinyArt = document.querySelector("#shiny-art")!;
 
@@ -7,9 +9,6 @@ const togglePkmnArt = () => {
 	regArt.classList.toggle("hidden");
 	shinyArt.classList.toggle("hidden");
 };
-
-regArt.addEventListener("click", togglePkmnArt);
-shinyArt.addEventListener("click", togglePkmnArt);
 
 const setFlavor = (game: string) => {
 	const nonGameElems = document.querySelectorAll(`.dex-entries > div:not(#${game})`)!;
@@ -19,12 +18,15 @@ const setFlavor = (game: string) => {
 	gameElem.classList.remove("hidden");
 };
 
-document.querySelector("body")!.addEventListener("keydown", (e) => {
-	generalKeyFuncs(e);
-});
-
 const generalKeyFuncs = (e: KeyboardEvent) => {
 	if (e.key == "r") {
 			pkmnSearch("random");
 	}
 }
+
+regArt.addEventListener("click", togglePkmnArt);
+shinyArt.addEventListener("click", togglePkmnArt);
+
+body.addEventListener("keydown", (e) => {
+	generalKeyFuncs(e);
+});

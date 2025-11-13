@@ -1,10 +1,7 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/mtslzr/pokeapi-go"
 	"github.com/mtslzr/pokeapi-go/structs"
@@ -13,9 +10,9 @@ import (
 )
 
 // Since the API wants to be difficult on my home PC, this function gets the directory of the desired resource in the api-data folder.
-func getAPILink(cat string, id string) string {
-	return fmt.Sprintf("api-data/%v/%v/index.json", cat, id)
-}
+// func getAPILink(cat string, id string) string {
+// 	return fmt.Sprintf("api-data/%v/%v/index.json", cat, id)
+// }
 
 // Reads and unmarshals the json for the National Pokedex.
 func getNatlDex() []NationalDexEntry {
@@ -36,8 +33,20 @@ func getNatlDex() []NationalDexEntry {
 		log.Fatalln("Dex fetch error:", err)
 	}
 
-	var e []NationalDexEntry
-	e = lo.Map(d.PokemonEntries, func(item, index int))
+	e := lo.Map(d.PokemonEntries, func(item struct {
+		EntryNumber    int `json:"entry_number"`
+		PokemonSpecies struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"pokemon_species"`
+	}, index int) NationalDexEntry {
+		var new NationalDexEntry
+
+		new.EntryNumber = item.EntryNumber
+		new.PokemonSpecies = item.PokemonSpecies
+
+		return new
+	})
 
 	return e
 }
@@ -54,18 +63,10 @@ func getPkmn(id string) structs.Pokemon {
 
 // Reads and unmarshals the json for a Pokemon's species API entry, as specified by [id]
 func getPkmnSpecies(id string) structs.PokemonSpecies {
-	sURL := getAPILink("pokemon-species", id)
-
-	s, sErr := os.ReadFile(sURL)
+	s, sErr := pokeapi.PokemonSpecies(id)
 	if sErr != nil {
 		log.Fatalln("Species fetch error:", sErr)
 	}
 
-	var species structs.PokemonSpecies
-
-	sUnpackErr := json.Unmarshal(s, &species)
-	if sUnpackErr != nil {
-		log.Fatalln("Species unpack error:", sUnpackErr)
-	}
-	return species
+	return s
 }
